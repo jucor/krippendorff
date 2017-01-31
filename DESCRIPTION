@@ -1,11 +1,19 @@
 Package: krippendorff
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Fast Krippendorff Alpha Reliability Measure
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Authors@R: as.person(c(
+    "Julien Cornebise <julien@cornebise.com> [aut, cre]"
+  ))
+Description: Computes Krippendorff Alpha for reliability analysis, in a space-efficient manner especially
+    suited for studies where each observer only grades a small fraction of a large number of observations.
+    It provides both Krippendorff's alpha and its bootstrapping evaluation. This implementation is faster and more space-efficient than
+    the more versatile `irr.kripp.alpha` package which offers several other reliability measures but requires
+    the full observation matrix. TODO(jucor): Find how to cite Hayes 2007 properly
+License: file LICENSE
 Encoding: UTF-8
+URL: http://github.com/jucor/krippendorff
+BugReports: http://github.com/jucor/krippendorff/issues
 LazyData: true
+Imports:
+  data.table
