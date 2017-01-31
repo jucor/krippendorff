@@ -87,34 +87,22 @@ Source: CRAN
 Version: 0.4.8-1
 Hash: 6ad605ba7b4b476d84be6632393f5765
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 6233a6f... Start using testthat
 Package: praise
 Source: CRAN
 Version: 1.0.0
 Hash: 77da8f1df873a4b91e5c4a68fe2fb1b6
 
-<<<<<<< HEAD
 Package: roxygen2
 Source: CRAN
 Version: 5.0.1
 Hash: d4fe5250cc73d11d1f1b9e45ae2535c2
 Requires: Rcpp, brew, digest, stringi, stringr
 
->>>>>>> adba5d4... Clean up example data
-=======
->>>>>>> 6233a6f... Start using testthat
 Package: rstudioapi
 Source: CRAN
 Version: 0.6
 Hash: fd256f8bfb9a64cc35f98b0decb1a79f
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 Package: stringi
 Source: CRAN
 Version: 1.1.2
@@ -126,18 +114,12 @@ Version: 1.1.0
 Hash: 4d21d0063b37a17ea18eaec6acd29bf3
 Requires: magrittr, stringi
 
-=======
->>>>>>> 6233a6f... Start using testthat
 Package: testthat
 Source: CRAN
 Version: 1.0.2
 Hash: 88d5291104227f9dc2e7c7c1d0eb6c74
 Requires: R6, crayon, digest, magrittr, praise
 
-<<<<<<< HEAD
->>>>>>> adba5d4... Clean up example data
-=======
->>>>>>> 6233a6f... Start using testthat
 Package: whisker
 Source: CRAN
 Version: 0.3-2
