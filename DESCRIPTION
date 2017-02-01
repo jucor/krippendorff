@@ -16,5 +16,6 @@ URL: http://github.com/jucor/krippendorff
 BugReports: http://github.com/jucor/krippendorff/issues
 LazyData: true
 Imports:
-  data.table
+  data.table,
+  Rcpp
 Suggests: testthat
