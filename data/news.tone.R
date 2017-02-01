@@ -1,6 +1,9 @@
 #' News coverage reliability data set, Table 1 from Hayes & Krippendorff 2007
 #'
-#' An example reliability data set from Hayes & Krippendorf (2007).
+#' An example reliability data set from Hayes & Krippendorf (2007). It is cast to long form,
+#' with missing observations simply not present in the dataset: there are no NA in this dataset.
+#' See \code{\link{news.tone.wide}} for the wide version ontaining NA.
+#'
 #' From the original article:
 #' \dQuote{The data for this example come from five observers who were asked to evaluate the local
 #' news coverage given to the challenger running against an incumbent for a political office in one of several
@@ -14,14 +17,13 @@
 #' with the columns labeled “obs1,” “obs2,” “obs3,” “obs4,” and “obs5.” Thus, in this example, the data
 #' occupied a 40 (articles) × 5 (observers) matrix, with each cell in the matrix containing a 0, 1, 2, 3,
 #' or a period character (“.”) for missing judgments.}
-#' TODO(jucor): Find how to cite Hayes 2007 properly.
 #'
-#' @format A data frame with 40 rows and 6 variables:
+#' TODO(jucor): Find how to cite Hayes 2007 properly with @references
+#'
+#' @seealso \code{\link{news.tone.wide}}
+#' @format A `data.table` with 200 rows and 3 variables:
 #' \describe{
-#' \item{unit}{unit observed}
-#' \item{obs1}{ordinal judgement from observer 1}
-#' \item{obs2}{ordinal judgement from observer 2}
-#' \item{obs3}{ordinal judgement from observer 3}
-#' \item{obs4}{ordinal judgement from observer 4}
-#' \item{obs5}{ordinal judgement from observer 5}
+#' \item{Unit}{Unit observed}
+#' \item{Observer}{Name of the observer}
+#' \item{Tone}{Tone rated by the observer, ordinal between 0 and 3}
 #' }

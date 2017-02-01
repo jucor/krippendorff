@@ -2,14 +2,22 @@ context("Presence of example data")
 
 test_that("Hayes 2007 Table 1 is present and of right size",
           {
-            expect_is(hayes2007, "data.frame")
-            expect_equal(ncol(hayes2007), 6)
-            expect_equal(nrow(hayes2007), 40)
+            expect_is(news.tone.wide, "data.table")
+            expect_equal(ncol(news.tone.wide), 6)
+            expect_equal(nrow(news.tone.wide), 40)
+
+            expect_is(news.tone, "data.table")
+            expect_equal(ncol(news.tone), 3)
+            expect_equal(nrow(news.tone), 159)
           })
 
 test_that("Krippendorff 2004 Section 11.3.1 is present and of right size",
           {
-            expect_is(krippendorff2004.binary.two.observers, "data.frame")
-            expect_equal(ncol(krippendorff2004.binary.two.observers), 3)
-            expect_equal(nrow(krippendorff2004.binary.two.observers), 10)
+            expect_is(news.presence.wide, "data.table")
+            expect_equal(ncol(news.presence.wide), 3)
+            expect_equal(nrow(news.presence.wide), 10)
+
+            expect_is(news.presence, "data.table")
+            expect_equal(ncol(news.presence), 3)
+            expect_equal(nrow(news.presence), 20)
           })
