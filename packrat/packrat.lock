@@ -52,8 +52,8 @@ Hash: 9a0b969942c61511002e103f7b047b98
 
 Package: data.table
 Source: CRAN
-Version: 1.10.0
-Hash: 3be20bb55823803066dce2a38d52cafb
+Version: 1.10.4
+Hash: 2c7c47ccb40d01c7b214c8eff818108d
 
 Package: devtools
 Source: CRAN

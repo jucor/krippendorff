@@ -1,1 +1,4 @@
-exportPattern("^[[:alpha.:]]+")
+useDynLib(krippendorff)
+importFrom(Rcpp, sourceCpp)
+import(data.table)
+exportPattern("^[[:alpha:]]+")

@@ -1,18 +1,19 @@
 #' Turn an observation data.frame into a long data.table
 #'
-#' @param data `data.table` containing the reliability data in wide format
+#' @param DT `data.table` containing the reliability data in wide format
 #' @param unit Name of the column containing the unit ID
 #' @param observers List of names of the columns containing the oberverments, one per observer
+#' @param measurement Name of the new column containing the measurements
 #'
-#' @return A long-form melted data.table with the same unit column and two new columns "observer" and "measurement"
-#'     and as many columns as units.
-to.long <- function(data, unit, observers) {
-  data.table::melt(data, id.vars = unit,
+#' @return A long-form melted data.table with the same unit column and two new columns "observer" and measurements
+#'     and as many rows as units.
+#' @export
+to.long.form <- function(DT, unit, observers, measurements) {
+  data.table::melt(DT, id.vars = unit,
                    measure.vars = observers,
-                   value.name = "measurement",
+                   value.name = measurements,
                    variable.name = "observer")
 }
-
 #' Compute Krippendorff's Alpha
 #'
 #' This function implements the computation of  Krippendorff's Alpha as per
@@ -26,20 +27,30 @@ to.long <- function(data, unit, observers) {
 #' @param unit Name of the column containing the unit ID
 #' @param measurement Name of the column containing the measurements, one per judge
 #' @param level c('nominal', 'ordinal'): type of oberverment data.
-kalpha <- function(data, unit, measurement, level) {
-  #  data is a data.table
-  # TODO(jucor): add default 'nominal'
+#' @export
+# TODO(jucor): add default 'nominal'
+# TODO(jucor): add alias 'binary' to 'nominal'
+kalpha <- function(DT, unit, measurement, level) {
   stopifnot(level == 'nominal')
+  stopifnot(is.data.table(DT))
 
-  setkeyv(data, c(unit, measurement))
+  data.table::setkeyv(DT, c(unit, measurement))
 
-  values.by.unit <- data[,.N, by=c(unit, measurement)]
-  print(values.by.unit)
-  values.by.unit.matrix <- as.matrix(dcast(values.by.unit,
-                                           paste(unit, "~", measurement),
-                                           value.var = "N",
-                                           fill = 0)[, -"Article"])
-  print(values.by.unit.matrix)
+  values.by.unit <- DT[, .N, by = c(unit, measurement)]
 
-  values.by.unit.matrix
+  Do.by.unit <- values.by.unit[,
+                               .(D = mismatchProbN(.SD$N)),
+                               by=unit]
+
+  values.by.category <- values.by.unit[,
+                                       .(N=sum(N)),
+                                       by=measurement]
+  De <- mismatchProbN(values.by.category$N)
+
+  1 - sum(Do.by.unit$D)/De
+}
+
+
+.onUnload <- function (libpath) {
+  library.dynam.unload("krippendorff", libpath)
 }

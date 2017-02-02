@@ -18,4 +18,6 @@ LazyData: true
 Imports:
   data.table,
   Rcpp
-Suggests: testthat
+LinkingTo: Rcpp
+Suggests: 
+  testthat

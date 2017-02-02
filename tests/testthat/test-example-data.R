@@ -1,5 +1,6 @@
 context("Presence of example data")
 
+
 test_that("Hayes 2007 Table 1 is present and of right size",
           {
             expect_is(news.tone.wide, "data.table")
@@ -10,6 +11,7 @@ test_that("Hayes 2007 Table 1 is present and of right size",
             expect_equal(ncol(news.tone), 3)
             expect_equal(nrow(news.tone), 159)
           })
+
 
 test_that("Krippendorff 2004 Section 11.3.1 is present and of right size",
           {
