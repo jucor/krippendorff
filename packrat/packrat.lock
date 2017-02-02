@@ -221,6 +221,12 @@ Source: CRAN
 Version: 1.0.0
 Hash: 77da8f1df873a4b91e5c4a68fe2fb1b6
 
+Package: pryr
+Source: CRAN
+Version: 0.1.2
+Hash: d04239b7314171687d58ccd8a0570951
+Requires: Rcpp, stringr
+
 Package: registry
 Source: CRAN
 Version: 0.3

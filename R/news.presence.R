@@ -19,3 +19,4 @@
 #' \item{observer}{Name of the observer.}
 #' \item{presence}{Indicator of observed presence of reference to the United States.}
 #' }
+#' @export
