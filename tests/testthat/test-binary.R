@@ -15,13 +15,11 @@ test_that("Melt works as expected", {
 
 
 test_that("K-alpha on partial nominal data", {
-  # Note: http://web.asc.upenn.edu/usr/krippendorff/mwebreliability5.pdf computes 0.743 but
-  # has a typo on n_{.3} which should be 11 instead of 10. The real result is thus 0.749
           expect_equal(kalpha(DT = nominal,
                               unit = "unit",
                               measurement = "measurement",
                               level = "nominal"),
-                       0.749,
+                       0.743,
                        tolerance = 1e-3)
           })
 

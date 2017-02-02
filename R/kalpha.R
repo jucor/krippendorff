@@ -37,15 +37,27 @@ kalpha <- function(DT, unit, measurement, level) {
   data.table::setkeyv(DT, c(unit, measurement))
 
   values.by.unit <- DT[, .N, by = c(unit, measurement)]
+  # TODO(jucor): profile if doing it in two steps rather than having sum(N) twice speeds things up
+  values.by.unit[,
+                 nu := sum(N),
+                 by=unit]
+  ## Alternative, maybe more memory-efficient but makes the filtering to compute nc more awkard
+  ## and thus probably slower (but profiling would be needed)
+  # nu.table <- values.by.unit[,
+  #                            .(nu = sum(N),
+  #                              sufficient = sum(N) > 1),
+  #                            by=unit]
 
   Do.by.unit <- values.by.unit[,
                                .(D = mismatchProbN(.SD$N)),
                                by=unit]
 
-  values.by.category <- values.by.unit[,
-                                       .(N=sum(N)),
-                                       by=measurement]
-  De <- mismatchProbN(values.by.category$N)
+  # Omit all units with lone values
+  nc <- values.by.unit[nu > 1,
+                       .(N = sum(N)),
+                       by=measurement]
+
+  De <- mismatchProbN(nc[, N])
 
   1 - sum(Do.by.unit$D)/De
 }
