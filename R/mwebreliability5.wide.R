@@ -1,0 +1,15 @@
+#' Example data from Krippendorff 2013
+#'
+#' Wide format of the data in \code{\link{mwebreliability5}}.
+#' @seealso \code{\link{mwebreliability5}}
+#'
+#' TODO(jucor): Find how to cite Hayes 2013 properly with @references
+#'
+#' @format A data frame with 12 rows and 5 variables:
+#' \describe{
+#' \item{unit}{unit observed}
+#' \item{V1}{measurement from observer 1}
+#' \item{V2}{measurement from observer 2}
+#' \item{V3}{measurement from observer 3}
+#' \item{V4}{measurement from observer 4}
+#' }

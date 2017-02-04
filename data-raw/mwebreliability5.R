@@ -1,3 +1,4 @@
+library(data.table)
 # Manually copied from  mwebreliability5.pdf
 # TODO(jucor) cite Krippendorff properly
 nominal.matrix <- read.table(text="1 2 3 3 2 1 4 1 2 . . .
@@ -9,6 +10,6 @@ nominal.wide <- data.table(t(nominal.matrix))
 nominal.wide$unit <- 1:nrow(nominal.wide)
 nominal <- melt(nominal.wide, id.vars="unit", variable.name="observer", value.name="measurement", na.rm = TRUE)
 
-save(nominal, file="data/nominal.rda")
-save(nominal.wide, file="data/nominal.wide.rda")
+save(nominal, file="data/mwebreliability5.R")
+save(nominal.wide, file="data/mwebreliability5.wide.R")
 
