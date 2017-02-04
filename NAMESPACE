@@ -1,5 +1,5 @@
 useDynLib(krippendorff)
-importFrom(Rcpp, sourceCpp)
+importFrom(Rcpp, evalCpp)
 import(data.table)
 # Export anything that does not start with dot
 exportPattern("^[^\\.][\\.[:alpha:]]+")
