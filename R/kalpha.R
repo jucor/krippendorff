@@ -29,9 +29,15 @@ to.long.form <- function(DT, unit, observers, measurements) {
 #' @param level c('nominal', 'ordinal'): type of oberverment data.
 #' @export
 # TODO(jucor): add default 'nominal'
-# TODO(jucor): add alias 'binary' to 'nominal'
 kalpha <- function(DT, unit, measurement, level) {
-  stopifnot(level == 'nominal')
+
+  count <- switch(level,
+         binary = countNominal,
+         nominal = countNominal,
+         ordinal = countOrdinal)
+  if (is.null(count))
+    stop("Level %s unknown, must be one of 'binary', 'nominal', 'ordinal'")
+
   stopifnot(is.data.table(DT))
 
   data.table::setkeyv(DT, c(unit, measurement))
@@ -49,7 +55,7 @@ kalpha <- function(DT, unit, measurement, level) {
   #                            by=unit]
 
   Do.by.unit <- values.by.unit[,
-                               .(D = mismatchProbN(.SD$N)),
+                               .(D = countNominal(.SD$N)),
                                by=unit]
 
   # Omit all units with lone values
@@ -57,7 +63,7 @@ kalpha <- function(DT, unit, measurement, level) {
                        .(N = sum(N)),
                        by=measurement]
 
-  De <- mismatchProbN(nc[, N])
+  De <- countNominal(nc[, N])
 
   1 - sum(Do.by.unit$D)/De
 }
