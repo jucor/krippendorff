@@ -10,6 +10,6 @@ nominal.wide <- data.table(t(nominal.matrix))
 nominal.wide$unit <- 1:nrow(nominal.wide)
 nominal <- melt(nominal.wide, id.vars="unit", variable.name="observer", value.name="measurement", na.rm = TRUE)
 
-save(nominal, file="data/mwebreliability5.R")
-save(nominal.wide, file="data/mwebreliability5.wide.R")
+save(nominal, file="data/mwebreliability5.rda")
+save(nominal.wide, file="data/mwebreliability5.wide.rda")
 
