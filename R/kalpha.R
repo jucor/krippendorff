@@ -29,7 +29,7 @@ to.long.form <- function(DT, unit, observers, measurements) {
 #' @param level c('nominal', 'ordinal'): type of oberverment data.
 #' @export
 # TODO(jucor): add default 'nominal'
-kalpha <- function(DT, unit, measurement, level) {
+kalpha <- function(DT, unit, measurement, level, boot = 1) {
 
   count <- switch(level,
          binary = countNominal,
@@ -68,6 +68,8 @@ kalpha <- function(DT, unit, measurement, level) {
   1 - sum(Do.by.unit$D)/De
 }
 
+kboot <- function(DT, unit, observers, measurements, K) {
+}
 
 .onUnload <- function (libpath) {
   library.dynam.unload("krippendorff", libpath)
