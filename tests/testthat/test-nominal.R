@@ -4,7 +4,7 @@ context("Nominal data")
 
 
 test_that("K-alpha on partial nominal data", {
-          expect_equal(kalpha(DT = nominal,
+          expect_equal(kalpha(DT = mwebreliability5,
                               unit = "unit",
                               measurement = "measurement",
                               level = "nominal"),
