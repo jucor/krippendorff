@@ -3,12 +3,21 @@ PackratVersion: 0.4.8.1
 RVersion: 3.3.2
 Repos: CRAN=https://cran.ma.imperial.ac.uk/
 
+Package: BH
+Source: CRAN
+Version: 1.62.0-1
+
+Package: DBI
+Source: CRAN
+Version: 0.5-1
+Hash: 375869004db963f9915f2b8a49b4a718
+
 Package: NMF
 Source: CRAN
 Version: 0.20.6
-Hash: 632aad207ab2e551b33990c9f09ab8af
 Requires: RColorBrewer, colorspace, digest, doParallel, foreach,
     ggplot2, gridBase, pkgmaker, registry, reshape2, rngtools, stringr
+Hash: 632aad207ab2e551b33990c9f09ab8af
 
 Package: R6
 Source: CRAN
@@ -58,9 +67,9 @@ Hash: 2c7c47ccb40d01c7b214c8eff818108d
 Package: devtools
 Source: CRAN
 Version: 1.12.0
-Hash: bbad95109ae75cbb14099281cda43af2
 Requires: digest, git2r, httr, jsonlite, memoise, rstudioapi, whisker,
     withr
+Hash: bbad95109ae75cbb14099281cda43af2
 
 Package: dichromat
 Source: CRAN
@@ -75,26 +84,32 @@ Hash: e53fb8c58673df868183697e39a6a4d6
 Package: doParallel
 Source: CRAN
 Version: 1.0.10
-Hash: df91a7abfa938c06ad87b9a2b9269adb
 Requires: foreach, iterators
+Hash: df91a7abfa938c06ad87b9a2b9269adb
+
+Package: dplyr
+Source: CRAN
+Version: 0.5.0
+Requires: BH, DBI, R6, Rcpp, assertthat, lazyeval, magrittr, tibble
+Hash: 884482baf4ab273f2af5e641469f9ea4
 
 Package: evaluate
 Source: CRAN
 Version: 0.10
-Hash: c3601a10c987d439e0c63ec635234a76
 Requires: stringr
+Hash: c3601a10c987d439e0c63ec635234a76
 
 Package: foreach
 Source: CRAN
 Version: 1.4.3
-Hash: cd53ef4cf29dc59ce3f8c5c1af735fd1
 Requires: iterators
+Hash: cd53ef4cf29dc59ce3f8c5c1af735fd1
 
 Package: ggplot2
 Source: CRAN
 Version: 2.2.1
-Hash: 46e5cb78836848aa44655e577433f54b
 Requires: digest, gtable, lazyeval, plyr, reshape2, scales, tibble
+Hash: 46e5cb78836848aa44655e577433f54b
 
 Package: git2r
 Source: CRAN
@@ -119,14 +134,14 @@ Hash: aa3d5b7912b5fed4b546ed5cd2a1760b
 Package: httr
 Source: CRAN
 Version: 1.2.1
-Hash: 7de1f8f760441881804af7c1ff324340
 Requires: R6, curl, jsonlite, mime, openssl
+Hash: 7de1f8f760441881804af7c1ff324340
 
 Package: igraph
 Source: CRAN
 Version: 1.0.1
-Hash: 26ac36402e881905359daabfd9ba4057
 Requires: NMF, irlba, magrittr
+Hash: 26ac36402e881905359daabfd9ba4057
 
 Package: irlba
 Source: CRAN
@@ -146,8 +161,8 @@ Hash: 3a193a612cae6814719ed523f7e7cf44
 Package: knitr
 Source: CRAN
 Version: 1.15.1
-Hash: eed7437e2b614c9e3923b7932b16ac97
 Requires: digest, evaluate, highr, markdown, stringr, yaml
+Hash: eed7437e2b614c9e3923b7932b16ac97
 
 Package: labeling
 Source: CRAN
@@ -162,9 +177,9 @@ Hash: 3d6e7608e65bbf5cb170dab1e3c9ed8b
 Package: lintr
 Source: CRAN
 Version: 1.0.0
-Hash: e24fa442a350e73f3b3fdf44f610863b
 Requires: crayon, digest, httr, igraph, jsonlite, knitr, rex,
     rstudioapi, stringdist, testthat
+Hash: e24fa442a350e73f3b3fdf44f610863b
 
 Package: magrittr
 Source: CRAN
@@ -174,14 +189,14 @@ Hash: bdc4d48c3135e8f3b399536ddf160df4
 Package: markdown
 Source: CRAN
 Version: 0.7.7
-Hash: fea2343a1119d61b0cc5c0a950d103a3
 Requires: mime
+Hash: fea2343a1119d61b0cc5c0a950d103a3
 
 Package: memoise
 Source: CRAN
 Version: 1.0.0
-Hash: 56e7087c3559eb7ba72a9afb349bf896
 Requires: digest
+Hash: 56e7087c3559eb7ba72a9afb349bf896
 
 Package: mime
 Source: CRAN
@@ -191,8 +206,8 @@ Hash: 463550cf44fb6f0a2359368f42eebe62
 Package: munsell
 Source: CRAN
 Version: 0.4.3
-Hash: f96d896947fcaf9b6d0074002e9f4f9d
 Requires: colorspace
+Hash: f96d896947fcaf9b6d0074002e9f4f9d
 
 Package: openssl
 Source: CRAN
@@ -207,14 +222,14 @@ Hash: 6ad605ba7b4b476d84be6632393f5765
 Package: pkgmaker
 Source: CRAN
 Version: 0.22
-Hash: 2e5fc2a6b7eaeb1e1d397a8dc5f54480
 Requires: digest, registry, stringr, xtable
+Hash: 2e5fc2a6b7eaeb1e1d397a8dc5f54480
 
 Package: plyr
 Source: CRAN
 Version: 1.8.4
-Hash: ce3897d2ea6dabdb2c0a217b25f5fe99
 Requires: Rcpp
+Hash: ce3897d2ea6dabdb2c0a217b25f5fe99
 
 Package: praise
 Source: CRAN
@@ -224,8 +239,8 @@ Hash: 77da8f1df873a4b91e5c4a68fe2fb1b6
 Package: pryr
 Source: CRAN
 Version: 0.1.2
-Hash: d04239b7314171687d58ccd8a0570951
 Requires: Rcpp, stringr
+Hash: d04239b7314171687d58ccd8a0570951
 
 Package: registry
 Source: CRAN
@@ -235,26 +250,26 @@ Hash: f9447c26b51b8c96f53720c5ff862c93
 Package: reshape2
 Source: CRAN
 Version: 1.4.2
-Hash: 85d9947f8a5e187dff7f18265b96cb13
 Requires: Rcpp, plyr, stringr
+Hash: 85d9947f8a5e187dff7f18265b96cb13
 
 Package: rex
 Source: CRAN
 Version: 1.1.1
-Hash: 69e208c6283398d235e507a658ba8079
 Requires: lazyeval, magrittr
+Hash: 69e208c6283398d235e507a658ba8079
 
 Package: rngtools
 Source: CRAN
 Version: 1.2.4
-Hash: 4db0661fe95ab6eb3d6339495bf22003
 Requires: digest, pkgmaker, stringr
+Hash: 4db0661fe95ab6eb3d6339495bf22003
 
 Package: roxygen2
 Source: CRAN
 Version: 5.0.1
-Hash: d4fe5250cc73d11d1f1b9e45ae2535c2
 Requires: Rcpp, brew, digest, stringi, stringr
+Hash: d4fe5250cc73d11d1f1b9e45ae2535c2
 
 Package: rstudioapi
 Source: CRAN
@@ -264,8 +279,8 @@ Hash: fd256f8bfb9a64cc35f98b0decb1a79f
 Package: scales
 Source: CRAN
 Version: 0.4.1
-Hash: bc8d2233a63b068b0f60b18303d60c55
 Requires: RColorBrewer, Rcpp, dichromat, labeling, munsell, plyr
+Hash: bc8d2233a63b068b0f60b18303d60c55
 
 Package: stringdist
 Source: CRAN
@@ -280,20 +295,26 @@ Hash: 1ad6b1cc11d982ac233bf2fa2f7c9684
 Package: stringr
 Source: CRAN
 Version: 1.1.0
-Hash: 4d21d0063b37a17ea18eaec6acd29bf3
 Requires: magrittr, stringi
+Hash: 4d21d0063b37a17ea18eaec6acd29bf3
 
 Package: testthat
 Source: CRAN
 Version: 1.0.2
-Hash: 88d5291104227f9dc2e7c7c1d0eb6c74
 Requires: R6, crayon, digest, magrittr, praise
+Hash: 88d5291104227f9dc2e7c7c1d0eb6c74
 
 Package: tibble
 Source: CRAN
 Version: 1.2
-Hash: 3857905737a164648031462bed6aa2ef
 Requires: Rcpp, assertthat, lazyeval
+Hash: 3857905737a164648031462bed6aa2ef
+
+Package: tidyr
+Source: CRAN
+Version: 0.6.1
+Requires: Rcpp, dplyr, lazyeval, magrittr, stringi, tibble
+Hash: 304887c13ceb691ff8bd5560c62b271a
 
 Package: whisker
 Source: CRAN

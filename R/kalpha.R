@@ -26,17 +26,16 @@ to.long.form <- function(DT, unit, observers, measurements) {
 #' @param data `data.table` containing the reliability data in long format
 #' @param unit Name of the column containing the unit ID
 #' @param measurement Name of the column containing the measurements, one per judge
-#' @param level c('nominal', 'ordinal'): type of oberverment data.
+#' @param level c('binary', 'nominal'): type of oberverment data.
 #' @export
 # TODO(jucor): add default 'nominal'
 kalpha <- function(DT, unit, measurement, level, boot = 1) {
 
   count <- switch(level,
          binary = countNominal,
-         nominal = countNominal,
-         ordinal = countOrdinal)
+         nominal = countNominal)
   if (is.null(count))
-    stop("Level %s unknown, must be one of 'binary', 'nominal', 'ordinal'")
+    stop("Level %s unknown, must be one of 'binary', 'nominal'")
 
   stopifnot(is.data.table(DT))
 
