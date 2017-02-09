@@ -27,6 +27,12 @@ to.long.form <- function(DT, unit, observers, measurements) {
 #' @param unit Name of the column containing the unit ID
 #' @param measurement Name of the column containing the measurements, one per judge
 #' @param level c('binary', 'nominal'): type of oberverment data.
+#' @return a list with the following items:
+#' \describe{
+#' \item{alpha}{Krippendorff's Alpha reliability index}
+#' \item{Do}{Observed disagreement}
+#' \item{De}{Expected disagreement}
+#' }
 #' @export
 # TODO(jucor): add default 'nominal'
 kalpha <- function(DT, unit, measurement, level, boot = 1) {
@@ -63,8 +69,11 @@ kalpha <- function(DT, unit, measurement, level, boot = 1) {
                        by=measurement]
 
   De <- countNominal(nc[, N])
+  Do <- sum(Do.by.unit$D)
 
-  1 - sum(Do.by.unit$D)/De
+  alpha <- 1 - Do/De
+
+  list(alpha = alpha, De = De, Do = Do)
 }
 
 kboot <- function(DT, unit, observers, measurements, K) {
