@@ -105,7 +105,11 @@ kalpha <- function(DT, unit, measurement, level) {
 #' @export
 kboot <- function(DT, unit, observer, measurement, level, nboot) {
 
-  stopifnot(level %in% c('binary', 'nominal'))
+  if (!(level %in% c('binary', 'nominal')))
+    stop("Boostrap only implemented for binary and nominal data")
+
+  if (DT[, nlevels(observer)] != 2)
+    stop("Bootstrap currently only implemented for exactly 2 observers")
 
   # compute expected disagreement from the main alpha
   point.estimate <- kalpha(DT, unit, measurement, level)
@@ -147,14 +151,27 @@ kboot <- function(DT, unit, observer, measurement, level, nboot) {
   deviations <- pairs.with.mu[, .(deviation=e/(mu-1)), keyby="unit"]
 
 
+
+  # =============================
+  # ALERT: stratifying by unit does not work for cases where there are only two graders!!
   # Sample the deviations -- that might be the slow part right there
   # TODO(jucor): potential speed-up by *not* bootstrapping the units within which the deviation is constant
   # (e.g. units where all graders agree on the same grade)
+  # sampled.deviations.by.unit <- deviations[, .(sample = 1:nboot, deviations = bootstrapWithinUnit(deviation, nboot)), keyby="unit"]
+  # =============================
 
-  sampled.deviations.by.unit <- deviations[, .(sample = 1:nboot, deviations = bootstrapWithinUnit(deviation, nboot)), keyby="unit"]
+
+  # Since we know for now taht we only have two graders, hence mu=2 for all units, we can resample pairs accross units
+  # without stratifying.
+  # TODO(jucor): implement bootstrap for more than two graders
+  sampled.deviations <- deviations[sample.int(.N, .N * nboot, rep=TRUE), .(deviation, sample=seq(1, nboot))]
+
+
+  # TODO(jucor): for the case where mu is constant throughout all units (e.g. for 2 observers),
+  # sample from the much much smaller observed coincidence matrix rather than from all the pairs.
 
   # And compute the final alphas, summing over the deviations for each unit
-  samples <- sampled.deviations.by.unit[, .(alpha = 1 - sum(deviations)), by="sample"]
+  samples <- sampled.deviations[, .(alpha = 1 - sum(deviation)), by="sample"]
 
   alphamin <- seq(.5, .9, .1)
   q <- ecdf(samples[, alpha])(alphamin)

@@ -45,6 +45,11 @@ Source: CRAN
 Version: 0.1
 Hash: 0afb92b59b02593c70ff8046700ba9d3
 
+Package: bootstrap
+Source: CRAN
+Version: 2015.2
+Hash: 26472d3195523d7becddff64d13709fd
+
 Package: brew
 Source: CRAN
 Version: 1.0-6
