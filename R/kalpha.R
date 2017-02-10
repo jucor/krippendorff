@@ -107,9 +107,17 @@ kboot <- function(DT, unit, observer, measurement, level, nboot) {
 
   stopifnot(level %in% c('binary', 'nominal'))
 
+  # compute expected disagreement from the main alpha
+  point.estimate <- kalpha(DT, unit, measurement, level)
+  De <- point.estimate$De
+  N <- point.estimate$n
+  N0 <- point.estimate$by.unit[, sum(.5 * (mu-1)*mu)]
+
+
   # use a join to generate all pairs
+  setkeyv(DT, c(unit))
   pairs <- DT[
-      DT, allow.cartesian=TRUE, on="unit"
+      DT, allow.cartesian=TRUE
     ][, c(
     unit,
     observer,
@@ -127,12 +135,6 @@ kboot <- function(DT, unit, observer, measurement, level, nboot) {
   pairs.not.self <- pairs[ o1 < o2]
 
 
-  # compute expected disagreement from the main alpha
-  point.estimate <- kalpha(DT, unit, measurement, level)
-  De <- point.estimate$De
-  N <- point.estimate$n
-  N0 <- point.estimate$by.unit[, sum(.5 * (mu-1)*mu)]
-
   # compute deviation E on all pairs
   # TODO(jucor): compute delta for ordinal and interval
   pairs.not.self[, delta := as.numeric(m1 != m2)]
@@ -140,7 +142,8 @@ kboot <- function(DT, unit, observer, measurement, level, nboot) {
   # TODO(jucor): figure out why :p
   pairs.not.self[, e := delta / (N * De)]
   # join to get the mu for each pair of each unit
-  pairs.with.mu <- point.estimate$by.unit[pairs.not.self,  on="unit"]
+  setnames(point.estimate$by.unit, unit, "unit")
+  pairs.with.mu <- point.estimate$by.unit[pairs.not.self, on="unit"]
   deviations <- pairs.with.mu[, .(deviation=e/(mu-1)), keyby="unit"]
 
 
