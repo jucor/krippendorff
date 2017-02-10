@@ -17,7 +17,8 @@ BugReports: http://github.com/jucor/krippendorff/issues
 LazyData: true
 Imports:
   data.table,
-  Rcpp
-LinkingTo: Rcpp
+  Rcpp,
+  RcppArmadillo
+LinkingTo: Rcpp, RcppArmadillo
 Suggests: 
   testthat

@@ -30,12 +30,17 @@ to.long.form <- function(DT, unit, observers, measurements) {
 #' @return a list with the following items:
 #' \describe{
 #' \item{alpha}{Krippendorff's Alpha reliability index}
-#' \item{Do}{Observed disagreement}
 #' \item{De}{Expected disagreement}
+#' \item{Do}{Overall observed disagreement accross all units}
+#' \item{by.unit}{Dataframe with one line per unit and columns\describe{
+#' \item{unit}{Unit}
+#' \item{mu}{Number of observations in that unit}
+#' \item{Do}{Observed disagreement within this unit}
+#' }
 #' }
 #' @export
 # TODO(jucor): add default 'nominal'
-kalpha <- function(DT, unit, measurement, level, boot = 1) {
+kalpha <- function(DT, unit, measurement, level) {
 
   count <- switch(level,
          binary = countNominal,
@@ -48,35 +53,116 @@ kalpha <- function(DT, unit, measurement, level, boot = 1) {
   data.table::setkeyv(DT, c(unit, measurement))
 
   values.by.unit <- DT[, .N, by = c(unit, measurement)]
-  # TODO(jucor): profile if doing it in two steps rather than having sum(N) twice speeds things up
-  values.by.unit[,
-                 nu := sum(N),
-                 by=unit]
-  ## Alternative, maybe more memory-efficient but makes the filtering to compute nc more awkard
-  ## and thus probably slower (but profiling would be needed)
-  # nu.table <- values.by.unit[,
-  #                            .(nu = sum(N),
-  #                              sufficient = sum(N) > 1),
-  #                            by=unit]
 
-  Do.by.unit <- values.by.unit[,
-                               .(D = countNominal(.SD$N)),
+  # Compute one mu value per unit.
+  by.unit <- values.by.unit[, .(
+                                 Do = countNominal(.SD$N),
+                                 mu = sum(.SD$N)
+                               ),
                                by=unit]
 
-  # Omit all units with lone values
-  nc <- values.by.unit[nu > 1,
+  # Compute one mu value per unit and repeat it for each measurement within the unit
+  values.by.unit[,
+                 mu := sum(N),
+                 by = unit]
+
+  # Omit all units with a single value
+  nc <- values.by.unit[mu >= 2,
                        .(N = sum(N)),
                        by=measurement]
 
-  De <- countNominal(nc[, N])
-  Do <- sum(Do.by.unit$D)
+  n <- nc[,sum(N)]
+  De <- countNominal(nc[, N])/n
+  Do <- sum(by.unit$Do)/n
 
   alpha <- 1 - Do/De
 
-  list(alpha = alpha, De = De, Do = Do)
+  list(alpha = alpha, Do = Do, De = De, n = n, by.unit = by.unit)
 }
 
-kboot <- function(DT, unit, observers, measurements, K) {
+
+#' Bootstrap Kalpha K times
+#' This function implements the bootstrap of Krippendorff's Alpha as per
+#' http://web.asc.upenn.edu/usr/krippendorff/boot.c-Alpha.pdf
+#'
+#' It is designed to be space efficient for sparse oberverments, and as thus does
+#' not take as input a reliability matrix, but a long-format data.table
+#' TODO(jucor): cite properly
+#'
+#' @param data `data.table` containing the reliability data in long format
+#' @param unit Name of the column containing the unit ID
+#' @param measurement Name of the column containing the measurements, one per judge
+#' @param level c('binary', 'nominal'): type of oberverment data.
+#' @param nboot number of samples alpha to bootstrap
+#' @return A list with the following elements:
+#' \describe{samples}{
+#' \item{samples}{Vector of nboot sampled aphas}
+#' \item{ll95}{Lower limit of 95% CI interval}
+#' \item{ul95}{Upper limit of 95% CI interval}
+#' \item{q.alphamin}{Probability of failure to achieve an alpha of at least alphamin, dataframe with alphamin and q}
+#'
+#' }
+#' @export
+kboot <- function(DT, unit, observer, measurement, level, nboot) {
+
+  stopifnot(level %in% c('binary', 'nominal'))
+
+  # use a join to generate all pairs
+  pairs <- DT[
+      DT, allow.cartesian=TRUE, on="unit"
+    ][, c(
+    unit,
+    observer,
+    paste("i", observer, sep="."),
+    measurement,
+    paste("i", measurement, sep=".")
+  ), with = FALSE]
+  colnames(pairs) <- c("unit", "o1", "o2", "m1", "m2")
+
+  # Order observers for simplicity
+  pairs[ , ":="(o1 = as.ordered(o1),
+                o2 = as.ordered(o2))]
+
+  # drop self-pairs
+  pairs.not.self <- pairs[ o1 < o2]
+
+
+  # compute expected disagreement from the main alpha
+  point.estimate <- kalpha(DT, unit, measurement, level)
+  De <- point.estimate$De
+  N <- point.estimate$n
+  N0 <- point.estimate$by.unit[, sum(.5 * (mu-1)*mu)]
+
+  # compute deviation E on all pairs
+  # TODO(jucor): compute delta for ordinal and interval
+  pairs.not.self[, delta := as.numeric(m1 != m2)]
+  # For some unclear reason, we do not need the factor 2 present in boot.c-Alpha.pdf
+  # TODO(jucor): figure out why :p
+  pairs.not.self[, e := delta / (N * De)]
+  # join to get the mu for each pair of each unit
+  pairs.with.mu <- point.estimate$by.unit[pairs.not.self,  on="unit"]
+  deviations <- pairs.with.mu[, .(deviation=e/(mu-1)), keyby="unit"]
+
+
+  # Sample the deviations -- that might be the slow part right there
+  # TODO(jucor): potential speed-up by *not* bootstrapping the units within which the deviation is constant
+  # (e.g. units where all graders agree on the same grade)
+
+  sampled.deviations.by.unit <- deviations[, .(sample = 1:nboot, deviations = bootstrapWithinUnit(deviation, nboot)), keyby="unit"]
+
+  # And compute the final alphas, summing over the deviations for each unit
+  samples <- sampled.deviations.by.unit[, .(alpha = 1 - sum(deviations)), by="sample"]
+
+  alphamin <- seq(.5, .9, .1)
+  q <- ecdf(samples[, alpha])(alphamin)
+  ci <- quantile(samples[,alpha], c(.025, .975))
+  list(
+    ll95 = ci[1],
+    ul95 = ci[2],
+    q.alphamin = data.frame(alphamin, q),
+    samples = samples[, alpha]
+  )
+
 }
 
 .onUnload <- function (libpath) {

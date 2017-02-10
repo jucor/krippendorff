@@ -34,6 +34,12 @@ Source: CRAN
 Version: 0.12.9
 Hash: 7ab41cbe74918de8de87e435ef17e92d
 
+Package: RcppArmadillo
+Source: CRAN
+Version: 0.7.700.0.0
+Requires: Rcpp
+Hash: 97ed7b31679bb0757f9505d536e3e28f
+
 Package: assertthat
 Source: CRAN
 Version: 0.1
@@ -142,6 +148,11 @@ Source: CRAN
 Version: 1.0.1
 Requires: NMF, irlba, magrittr
 Hash: 26ac36402e881905359daabfd9ba4057
+
+Package: inline
+Source: CRAN
+Version: 0.3.14
+Hash: d2e10c068b7b3cc450bd630e69f89ce9
 
 Package: irlba
 Source: CRAN
