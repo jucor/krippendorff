@@ -2,6 +2,10 @@
 
 This is an R package used to do the reliability analysis. While the packaging is not finished, the key functions are there.
 
+## Introduction
+These functions were written to handle computation of Krippendorff's Alpha reliability index in the case of large, sparse matrices typical of crowdsourced/citizen-science efforts. After three years sitting on them thinking "I should really package this", I decided to provide them online as-is in case they could help someone. Who knows, with some time I might even be able to do a nicer package!
+
+## Features
 This package:
 - computes Krippendorff's Alpha as was described in Krippendorf (2011)  [Computing Krippendorff’s Alpha-Reliability](http://web.asc.upenn.edu/usr/krippendorff/mwebreliability5.pdf). Note: that technical report seems to now have disappeared from its author's website. TODO(jucor): find another reference.
 - should work for binary and for nominal variables alike
@@ -15,15 +19,17 @@ This package:
 The computation-heavy parts are in C++ under the hood, for computational efficiency
 
 ## Installation
-```
-devtools::install_local("path to this package")
+At the moment this package is not on CRAN. You can install it using the [`remotes`](https://github.com/r-lib/remotes) package:
+```{R}
+remotes::install_github("jucor/krippendorff")
 ```
 
 ## TODO(jucor)
 
-- [ ] Find fresher reference than a 404 PDF :)
+- [ ] List nicer references than a 404 PDF :)
 - [ ] Finish a proper packaging, including a vignette
 - [ ] Add nicer unit tests
+- [ ] Add continuous integration and nice labels in the README ;-)
 - [ ] Check proper generation of the documentation with Roxygen
 - [ ] Create a simple GH-pages for the package
 - [ ] Replace `packrat` by `renv`
