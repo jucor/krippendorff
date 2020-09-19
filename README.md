@@ -21,8 +21,11 @@ devtools::install_local("path to this package")
 
 ## TODO(jucor)
 
-[] Find fresher reference than a 404 PDF :)
+- [] Find fresher reference than a 404 PDF :)
 - Finish a proper packaging, including a vignette
+- Add nicer unit tests
+- Check proper generation of the documentation with Roxygen
+- Create a simple GH-pages for the package
 - Replace `packrat` by `renv`
 - Publish to CRAN
 - Review bootstrapping
