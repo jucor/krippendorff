@@ -17,7 +17,7 @@ to.long.form <- function(DT, unit, observers, measurements) {
 #' Compute Krippendorff's Alpha
 #'
 #' This function implements the computation of  Krippendorff's Alpha as per
-#' http://web.asc.upenn.edu/usr/krippendorff/mwebreliability5.pdf
+#' https://repository.upenn.edu/cgi/viewcontent.cgi?article=1043&context=asc_papers
 #'
 #' It is designed to be space efficient for sparse oberverments, and as thus does
 #' not take as input a reliability matrix, but a long-format data.table
