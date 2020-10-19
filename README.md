@@ -1,3 +1,7 @@
+<!-- badges: start -->
+[![R build status](https://github.com/jucor/krippendorff/workflows/R-CMD-check/badge.svg)](https://github.com/jucor/krippendorff/actions)
+<!-- badges: end -->
+  
 # R package - Krippendorff Alpha for reliability analysis
 
 This is an R package used to do the reliability analysis. While the packaging is not finished, the key functions are there.
