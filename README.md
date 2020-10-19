@@ -3,6 +3,7 @@
 <!-- badges: start -->
 [![R build status](https://github.com/jucor/krippendorff/workflows/R-CMD-check/badge.svg)](https://github.com/jucor/krippendorff/actions)
 [![Codecov test coverage](https://codecov.io/gh/jucor/krippendorff/branch/main/graph/badge.svg)](https://codecov.io/gh/jucor/krippendorff?branch=main)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
   
 This is an R package used to do the reliability analysis. While the packaging is not finished, the key functions are there.
