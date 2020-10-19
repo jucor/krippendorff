@@ -12,10 +12,3 @@ test_that("Melt works as expected", {
           setorder(obtained, article, observer)
           expect_equal(obtained, expected)
         })
-
-
-test_that("Do not export private functions",
-          {
-            skip("TODO(jucor): enable Roxygen2")
-            expect_error(.possible.disagreements)
-          })
