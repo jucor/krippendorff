@@ -11,10 +11,10 @@
   "Packages": {
     "R6": {
       "Package": "R6",
-      "Version": "2.2.0",
+      "Version": "2.4.1",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "ef6425fe6de97b8854c227724ed7fbbd"
+      "Hash": "292b54f8f4b94669b08f94e5acce6be2"
     },
     "Rcpp": {
       "Package": "Rcpp",
