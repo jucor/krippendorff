@@ -32,7 +32,7 @@ remotes::install_github("jucor/krippendorff")
 - [ ] Add continuous integration and nice labels in the README ;-)
 - [ ] Check proper generation of the documentation with Roxygen
 - [ ] Create a simple GH-pages for the package
-- [ ] Replace `packrat` by `renv`
+- [x] Replace `packrat` by `renv`
 - [ ] Publish to CRAN
 - [ ] Review bootstrapping
 - [ ] Check current alpha name from Krippendorff 2020 draft
