@@ -34,9 +34,9 @@ remotes::install_github("jucor/krippendorff")
 ## TODO(jucor)
 
 - [ ] Finish a proper packaging, including a vignette
-- [ ] Check that the unit tests still run
-- [ ] Add continuous integration and nice labels in the README ;-)
-- [ ] Check proper generation of the documentation with Roxygen
+- [x] Check that the unit tests still run
+- [x] Add continuous integration and nice labels in the README ;-)
+- [x] Check proper generation of the documentation with Roxygen
 - [ ] Create a simple GH-pages for the package
 - [x] Replace `packrat` by `renv`
 - [ ] Publish to CRAN
