@@ -8,3 +8,6 @@
 ^\.github$
 ^\.covrignore$
 ^codecov\.yml$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
