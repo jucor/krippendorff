@@ -41,7 +41,7 @@
 
 <meta property="og:title" content="Compute Krippendorff's Alpha — kalpha" />
 <meta property="og:description" content="This function implements the computation of  Krippendorff's Alpha as per
-https://repository.upenn.edu/cgi/viewcontent.cgi?article=1043&amp;amp;context=asc_papers" />
+https://repository.upenn.edu/cgi/viewcontent.cgi?article=1043&amp;amp;context=asc_papers # nolint" />
 
 
 
@@ -116,16 +116,16 @@ https://repository.upenn.edu/cgi/viewcontent.cgi?article=1043&amp;amp;context=as
 
     <div class="ref-description">
     <p>This function implements the computation of  Krippendorff's Alpha as per
-https://repository.upenn.edu/cgi/viewcontent.cgi?article=1043&amp;context=asc_papers</p>
+https://repository.upenn.edu/cgi/viewcontent.cgi?article=1043&amp;context=asc_papers # nolint</p>
     </div>
 
-    <pre class="usage"><span class='fu'>kalpha</span><span class='op'>(</span><span class='va'>DT</span>, <span class='va'>unit</span>, <span class='va'>measurement</span>, <span class='va'>level</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>kalpha</span><span class='op'>(</span><span class='va'>dt</span>, <span class='va'>unit</span>, <span class='va'>measurement</span>, <span class='va'>level</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>DT</th>
+      <th>dt</th>
       <td><p>`data.table` containing the reliability data in long format</p></td>
     </tr>
     <tr>
@@ -134,7 +134,8 @@ https://repository.upenn.edu/cgi/viewcontent.cgi?article=1043&amp;context=asc_pa
     </tr>
     <tr>
       <th>measurement</th>
-      <td><p>Name of the column containing the measurements, one per judge</p></td>
+      <td><p>Name of the column containing the measurements, one per
+judge</p></td>
     </tr>
     <tr>
       <th>level</th>
@@ -149,15 +150,15 @@ https://repository.upenn.edu/cgi/viewcontent.cgi?article=1043&amp;context=asc_pa
 <dt>alpha</dt><dd><p>Krippendorff's Alpha reliability index</p></dd>
 <dt>De</dt><dd><p>Expected disagreement</p></dd>
 <dt>Do</dt><dd><p>Overall observed disagreement accross all units</p></dd>
-<dt>by.unit</dt><dd><p>Dataframe with one line per unit and columns</p></dd>
+<dt>by_unit</dt><dd><p>Dataframe with one line per unit and columns</p></dd>
 <dt>unit</dt><dd><p>Unit</p></dd>
 <dt>mu</dt><dd><p>Number of observations in that unit</p></dd>
 <dt>Do</dt><dd><p>Observed disagreement within this unit</p></dd>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>It is designed to be space efficient for sparse oberverments, and as thus does
-not take as input a reliability matrix, but a long-format data.table
+    <p>It is designed to be space efficient for sparse oberverments, and as thus
+does not take as input a reliability matrix, but a long-format data.table
 TODO(jucor): cite properly</p>
 
   </div>

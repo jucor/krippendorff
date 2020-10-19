@@ -44,8 +44,8 @@ http://web.asc.upenn.edu/usr/krippendorff/boot.c-Alpha.pdf — kboot • krippen
 <meta property="og:title" content="Bootstrap Kalpha K times
 This function implements the bootstrap of Krippendorff's Alpha as per
 http://web.asc.upenn.edu/usr/krippendorff/boot.c-Alpha.pdf — kboot" />
-<meta property="og:description" content="It is designed to be space efficient for sparse oberverments, and as thus does
-not take as input a reliability matrix, but a long-format data.table
+<meta property="og:description" content="It is designed to be space efficient for sparse oberverments, and as thus
+does not take as input a reliability matrix, but a long-format data.table
 TODO(jucor): cite properly" />
 
 
@@ -122,18 +122,18 @@ http://web.asc.upenn.edu/usr/krippendorff/boot.c-Alpha.pdf</h1>
     </div>
 
     <div class="ref-description">
-    <p>It is designed to be space efficient for sparse oberverments, and as thus does
-not take as input a reliability matrix, but a long-format data.table
+    <p>It is designed to be space efficient for sparse oberverments, and as thus
+does not take as input a reliability matrix, but a long-format data.table
 TODO(jucor): cite properly</p>
     </div>
 
-    <pre class="usage"><span class='fu'>kboot</span><span class='op'>(</span><span class='va'>DT</span>, <span class='va'>unit</span>, <span class='va'>observer</span>, <span class='va'>measurement</span>, <span class='va'>level</span>, <span class='va'>nboot</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>kboot</span><span class='op'>(</span><span class='va'>dt</span>, <span class='va'>unit</span>, <span class='va'>observer</span>, <span class='va'>measurement</span>, <span class='va'>level</span>, <span class='va'>nboot</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>DT</th>
+      <th>dt</th>
       <td><p>`data.table` containing the reliability data in long format</p></td>
     </tr>
     <tr>
@@ -142,11 +142,13 @@ TODO(jucor): cite properly</p>
     </tr>
     <tr>
       <th>observer</th>
-      <td><p>Name of the column containing the observer name, one per judge</p></td>
+      <td><p>Name of the column containing the observer name, one per
+judge</p></td>
     </tr>
     <tr>
       <th>measurement</th>
-      <td><p>Name of the column containing the measurements, one per judge</p></td>
+      <td><p>Name of the column containing the measurements, one per
+judge</p></td>
     </tr>
     <tr>
       <th>level</th>
@@ -165,7 +167,8 @@ TODO(jucor): cite properly</p>
 <dt>samples</dt><dd><p>Vector of nboot sampled alphas</p></dd>
 <dt>ll95</dt><dd><p>Lower limit of 95% CI interval</p></dd>
 <dt>ul95</dt><dd><p>Upper limit of 95% CI interval</p></dd>
-<dt>q.alphamin</dt><dd><p>Probability of failure to achieve an alpha of at least alphamin, dataframe with alphamin and q</p></dd>
+<dt>q.alphamin</dt><dd><p>Probability of failure to achieve an alpha of at least
+alphamin, dataframe with alphamin and q</p></dd>
 
 
   </div>
