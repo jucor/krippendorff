@@ -1,4 +1,4 @@
-#' Two observers, binary reliability data - section 11.3.1 from Krippendorff 2004
+#' Two observers, binary reliability data, section 11.3.1 from Krippendorff 2004
 #'
 #' Example reliability data set for two observers, binary data, from
 #' Krippendorf (2004, Section 11.3.1, page 224). From the original:
@@ -17,6 +17,7 @@
 #' \describe{
 #' \item{article}{Article observed.}
 #' \item{observer}{Name of the observer.}
-#' \item{presence}{Indicator of observed presence of reference to the United States.}
+#' \item{presence}{Indicator of observed presence of reference to the United
+#' States.}
 #' }
 "news.presence"

@@ -2,11 +2,12 @@
 #'
 #' @param DT `data.table` containing the reliability data in wide format
 #' @param unit Name of the column containing the unit ID
-#' @param observers List of names of the columns containing the oberverments, one per observer
+#' @param observers List of names of the columns containing the oberverments,
+#'   one per observer
 #' @param measurements Name of the new column containing the measurements
 #'
-#' @return A long-form melted data.table with the same unit column and two new columns "observer" and measurements
-#'     and as many rows as units.
+#' @return A long-form melted data.table with the same unit column and two new
+#'   columns "observer" and measurements and as many rows as units.
 #' @export
 to.long.form <- function(DT, unit, observers, measurements) {
   data.table::melt(DT,
@@ -19,15 +20,16 @@ to.long.form <- function(DT, unit, observers, measurements) {
 #' Compute Krippendorff's Alpha
 #'
 #' This function implements the computation of  Krippendorff's Alpha as per
-#' https://repository.upenn.edu/cgi/viewcontent.cgi?article=1043&context=asc_papers
+#' https://repository.upenn.edu/cgi/viewcontent.cgi?article=1043&context=asc_papers # nolint
 #'
-#' It is designed to be space efficient for sparse oberverments, and as thus does
-#' not take as input a reliability matrix, but a long-format data.table
+#' It is designed to be space efficient for sparse oberverments, and as thus
+#' does not take as input a reliability matrix, but a long-format data.table
 #' TODO(jucor): cite properly
 #'
 #' @param DT `data.table` containing the reliability data in long format
 #' @param unit Name of the column containing the unit ID
-#' @param measurement Name of the column containing the measurements, one per judge
+#' @param measurement Name of the column containing the measurements, one per
+#'   judge
 #' @param level c('binary', 'nominal'): type of oberverment data.
 #' @return
 #' \item{alpha}{Krippendorff's Alpha reliability index}
@@ -65,7 +67,8 @@ kalpha <- function(DT, unit, measurement, level) {
   by = unit
   ]
 
-  # Compute one mu value per unit and repeat it for each measurement within the unit
+  # Compute one mu value per unit and repeat it for each measurement within the
+  # unit
   values.by.unit[,
     mu := sum(N),
     by = unit
@@ -91,25 +94,29 @@ kalpha <- function(DT, unit, measurement, level) {
 #' This function implements the bootstrap of Krippendorff's Alpha as per
 #' http://web.asc.upenn.edu/usr/krippendorff/boot.c-Alpha.pdf
 #'
-#' It is designed to be space efficient for sparse oberverments, and as thus does
-#' not take as input a reliability matrix, but a long-format data.table
+#' It is designed to be space efficient for sparse oberverments, and as thus
+#' does not take as input a reliability matrix, but a long-format data.table
 #' TODO(jucor): cite properly
 #'
 #' @param DT `data.table` containing the reliability data in long format
 #' @param unit Name of the column containing the unit ID
-#' @param observer Name of the column containing the observer name, one per judge
-#' @param measurement Name of the column containing the measurements, one per judge
+#' @param observer Name of the column containing the observer name, one per
+#'   judge
+#' @param measurement Name of the column containing the measurements, one per
+#'   judge
 #' @param level c('binary', 'nominal'): type of oberverment data.
 #' @param nboot number of samples alpha to bootstrap
 #' @return \item{samples}{Vector of nboot sampled alphas}
 #' \item{ll95}{Lower limit of 95\% CI interval}
 #' \item{ul95}{Upper limit of 95\% CI interval}
-#' \item{q.alphamin}{Probability of failure to achieve an alpha of at least alphamin, dataframe with alphamin and q}
+#' \item{q.alphamin}{Probability of failure to achieve an alpha of at least
+#' alphamin, dataframe with alphamin and q}
 #' @import data.table
 #' @importFrom stats ecdf quantile
 #' @export
 kboot <- function(DT, unit, observer, measurement, level, nboot) {
-  . <- mu <- o1 <- o2 <- delta <- m1 <- m2 <- e <- deviation <- alpha <- NULL # due to NSE notes in R CMD check
+  . <- mu <- o1 <- o2 <- delta <- NULL # due to NSE notes in R CMD check
+  m1 <- m2 <- e <- deviation <- alpha <- NULL # due to NSE notes in R CMD check
 
   if (!(level %in% c("binary", "nominal"))) {
     stop("Boostrap only implemented for binary and nominal data")
@@ -141,7 +148,7 @@ kboot <- function(DT, unit, observer, measurement, level, nboot) {
   colnames(pairs) <- c("unit", "o1", "o2", "m1", "m2")
 
   # Order observers for simplicity
-  pairs[, ":="(o1 = as.ordered(o1),
+  pairs[, ":="(o1 = as.ordered(o1), # nolint
     o2 = as.ordered(o2))]
 
   # drop self-pairs
@@ -151,7 +158,8 @@ kboot <- function(DT, unit, observer, measurement, level, nboot) {
   # compute deviation E on all pairs
   # TODO(jucor): compute delta for ordinal and interval
   pairs.not.self[, delta := as.numeric(m1 != m2)]
-  # For some unclear reason, we do not need the factor 2 present in boot.c-Alpha.pdf
+  # For some unclear reason, we do not need the factor 2 present in
+  # boot.c-Alpha.pdf
   # TODO(jucor): figure out why :p
   pairs.not.self[, e := delta / (N * De)]
   # join to get the mu for each pair of each unit
@@ -162,11 +170,14 @@ kboot <- function(DT, unit, observer, measurement, level, nboot) {
 
 
   # =============================
-  # ALERT: stratifying by unit does not work for cases where there are only two graders!!
-  # Sample the deviations -- that might be the slow part right there
-  # TODO(jucor): potential speed-up by *not* bootstrapping the units within which the deviation is constant
-  # (e.g. units where all graders agree on the same grade)
-  # sampled.deviations.by.unit <- deviations[, .(sample = 1:nboot, deviations = bootstrapWithinUnit(deviation, nboot)), keyby="unit"]
+  # ALERT: stratifying by unit does not work for cases where there are only two
+  # graders!! Sample the deviations -- that might be the slow part right there
+  # TODO(jucor): potential speed-up by *not* bootstrapping the units within
+  # which the deviation is constant (e.g. units where all graders agree on the
+  # same grade)
+  # sampled.deviations.by.unit <- deviations[,
+  #   .(sample = 1:nboot, deviations = bootstrapWithinUnit(deviation, nboot)),
+  #   keyby="unit"]
   # =============================
 
 
@@ -179,8 +190,9 @@ kboot <- function(DT, unit, observer, measurement, level, nboot) {
   ]
 
 
-  # TODO(jucor): for the case where mu is constant throughout all units (e.g. for 2 observers),
-  # sample from the much much smaller observed coincidence matrix rather than from all the pairs.
+  # TODO(jucor): for the case where mu is constant throughout all units (e.g.
+  # for 2 observers), sample from the much much smaller observed coincidence
+  # matrix rather than from all the pairs.
 
   # And compute the final alphas, summing over the deviations for each unit
   samples <- sampled.deviations[, .(alpha = 1 - sum(deviation)), by = "sample"]

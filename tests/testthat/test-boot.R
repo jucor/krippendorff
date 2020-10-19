@@ -18,7 +18,8 @@ test_that("Bootstrap on nominal data", {
   expect_gt(result$ll95, 0)
   expect_gt(result$ul95, 0)
   expect_gte(result$ul95, result$ll95)
-  # TODO(jucor): find a nominal dataset to bootstrap for which Krippendorff gives values that I can use as test
+  # TODO(jucor): find a nominal dataset to bootstrap for which Krippendorff
+  # gives values that I can use as test
   # TODO(jucor): or implement ordinal level to use the values in Hayes 2007
 })
 
@@ -38,7 +39,8 @@ test_that("Bootstrap with non-standard names", {
   expect_gt(result$ll95, 0)
   expect_gt(result$ul95, 0)
   expect_gt(result$ul95, result$ll95)
-  # TODO(jucor): find a nominal dataset to bootstrap for which Krippendorff gives values that I can use as test
+  # TODO(jucor): find a nominal dataset to bootstrap for which Krippendorff
+  # gives values that I can use as test
   # TODO(jucor): or implement ordinal level to use the values in Hayes 2007
 })
 
@@ -61,6 +63,7 @@ test_that("Bootstrap with only two observers", {
   expect_gt(result$ll95, 0)
   expect_gt(result$ul95, 0)
   expect_gte(result$ul95, result$ll95)
-  # TODO(jucor): find a nominal dataset to bootstrap for which Krippendorff gives values that I can use as test
+  # TODO(jucor): find a nominal dataset to bootstrap for which Krippendorff
+  # gives values that I can use as test
   # TODO(jucor): or implement ordinal level to use the values in Hayes 2007
 })

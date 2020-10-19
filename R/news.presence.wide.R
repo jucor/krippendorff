@@ -1,4 +1,4 @@
-#' Two observers, binary reliability data - section 11.3.1 from Krippendorff 2004
+#' Two observers, binary reliability data, section 11.3.1 from Krippendorff 2004
 #'
 #' This is the wide version of \code{\link{news.presence}}.
 #'

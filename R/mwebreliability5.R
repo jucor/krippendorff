@@ -1,8 +1,8 @@
 #' Example data from Krippendorff 2013
 #'
 #' Example reliablility data, with multiple observers and missing data,
-#' from Krippendorf (2013, page 4), 4 observers, 12 units. This example can be interpreted
-#' either as nominal, ordinal, or interval data
+#' from Krippendorf (2013, page 4), 4 observers, 12 units. This example can be
+#' interpreted either as nominal, ordinal, or interval data
 #'
 #' It is cast to long form,
 #' with missing observations removed from the dataset.
