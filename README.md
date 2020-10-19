@@ -2,7 +2,7 @@
 
 <!-- badges: start -->
 [![R build status](https://github.com/jucor/krippendorff/workflows/R-CMD-check/badge.svg)](https://github.com/jucor/krippendorff/actions)
-[![Codecov test coverage](https://codecov.io/gh/jucor/krippendorff/branch/master/graph/badge.svg)](https://codecov.io/gh/jucor/krippendorff?branch=master)
+[![Codecov test coverage](https://codecov.io/gh/jucor/krippendorff/branch/main/graph/badge.svg)](https://codecov.io/gh/jucor/krippendorff?branch=main)
 <!-- badges: end -->
   
 This is an R package used to do the reliability analysis. While the packaging is not finished, the key functions are there.
