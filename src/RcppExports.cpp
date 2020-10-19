@@ -8,7 +8,7 @@ using namespace Rcpp;
 
 // bootstrapWithinUnit
 NumericVector bootstrapWithinUnit(NumericVector deviations, int nboot);
-RcppExport SEXP krippendorff_bootstrapWithinUnit(SEXP deviationsSEXP, SEXP nbootSEXP) {
+RcppExport SEXP _krippendorff_bootstrapWithinUnit(SEXP deviationsSEXP, SEXP nbootSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -20,7 +20,7 @@ END_RCPP
 }
 // countNominal
 double countNominal(NumericVector n);
-RcppExport SEXP krippendorff_countNominal(SEXP nSEXP) {
+RcppExport SEXP _krippendorff_countNominal(SEXP nSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -28,4 +28,15 @@ BEGIN_RCPP
     rcpp_result_gen = Rcpp::wrap(countNominal(n));
     return rcpp_result_gen;
 END_RCPP
+}
+
+static const R_CallMethodDef CallEntries[] = {
+    {"_krippendorff_bootstrapWithinUnit", (DL_FUNC) &_krippendorff_bootstrapWithinUnit, 2},
+    {"_krippendorff_countNominal", (DL_FUNC) &_krippendorff_countNominal, 1},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_krippendorff(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
 }

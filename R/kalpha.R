@@ -27,20 +27,19 @@ to.long.form <- function(DT, unit, observers, measurements) {
 #' @param unit Name of the column containing the unit ID
 #' @param measurement Name of the column containing the measurements, one per judge
 #' @param level c('binary', 'nominal'): type of oberverment data.
-#' @return a list with the following items:
-#' \describe{
+#' @return
 #' \item{alpha}{Krippendorff's Alpha reliability index}
 #' \item{De}{Expected disagreement}
 #' \item{Do}{Overall observed disagreement accross all units}
-#' \item{by.unit}{Dataframe with one line per unit and columns\describe{
+#' \item{by.unit}{Dataframe with one line per unit and columns}
 #' \item{unit}{Unit}
 #' \item{mu}{Number of observations in that unit}
 #' \item{Do}{Observed disagreement within this unit}
-#' }
-#' }
 #' @export
+#' @import data.table
 # TODO(jucor): add default 'nominal'
 kalpha <- function(DT, unit, measurement, level) {
+  . = mu = N = NULL # due to NSE notes in R CMD check
 
   count <- switch(level,
          binary = countNominal,
@@ -94,16 +93,15 @@ kalpha <- function(DT, unit, measurement, level) {
 #' @param measurement Name of the column containing the measurements, one per judge
 #' @param level c('binary', 'nominal'): type of oberverment data.
 #' @param nboot number of samples alpha to bootstrap
-#' @return A list with the following elements:
-#' \describe{samples}{
-#' \item{samples}{Vector of nboot sampled aphas}
-#' \item{ll95}{Lower limit of 95% CI interval}
-#' \item{ul95}{Upper limit of 95% CI interval}
+#' @return \item{samples}{Vector of nboot sampled alphas}
+#' \item{ll95}{Lower limit of 95\% CI interval}
+#' \item{ul95}{Upper limit of 95\% CI interval}
 #' \item{q.alphamin}{Probability of failure to achieve an alpha of at least alphamin, dataframe with alphamin and q}
-#'
-#' }
+#' @import data.table
+#' @importFrom stats ecdf quantile
 #' @export
 kboot <- function(DT, unit, observer, measurement, level, nboot) {
+  . = mu = o1 = o2 = delta = m1 = m2 = e = deviation = alpha = NULL  # due to NSE notes in R CMD check
 
   if (!(level %in% c('binary', 'nominal')))
     stop("Boostrap only implemented for binary and nominal data")
@@ -164,7 +162,9 @@ kboot <- function(DT, unit, observer, measurement, level, nboot) {
   # Since we know for now taht we only have two graders, hence mu=2 for all units, we can resample pairs accross units
   # without stratifying.
   # TODO(jucor): implement bootstrap for more than two graders
-  sampled.deviations <- deviations[sample.int(.N, .N * nboot, rep=TRUE), .(deviation, sample=seq(1, nboot))]
+  sampled.deviations <- deviations[
+    sample.int(.N, .N * nboot, replace=TRUE),
+    .(deviation, sample=seq(1, nboot))]
 
 
   # TODO(jucor): for the case where mu is constant throughout all units (e.g. for 2 observers),

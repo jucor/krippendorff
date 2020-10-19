@@ -2,10 +2,10 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 bootstrapWithinUnit <- function(deviations, nboot) {
-    .Call('krippendorff_bootstrapWithinUnit', PACKAGE = 'krippendorff', deviations, nboot)
+    .Call('_krippendorff_bootstrapWithinUnit', PACKAGE = 'krippendorff', deviations, nboot)
 }
 
 countNominal <- function(n) {
-    .Call('krippendorff_countNominal', PACKAGE = 'krippendorff', n)
+    .Call('_krippendorff_countNominal', PACKAGE = 'krippendorff', n)
 }
 

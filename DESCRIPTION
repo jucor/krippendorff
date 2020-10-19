@@ -5,11 +5,11 @@ Version: 0.1.0
 Authors@R: as.person(c(
     "Julien Cornebise <julien@cornebise.com> [aut, cre]"
   ))
-Description: Computes Krippendorff Alpha for reliability analysis, in a space-efficient manner especially
+Description: krippendorff computes Krippendorff Alpha for reliability analysis, in a space-efficient manner especially
     suited for studies where each observer only grades a small fraction of a large number of observations.
     It provides both Krippendorff's alpha and its bootstrapping evaluation. This implementation is faster and more space-efficient than
     the more versatile `irr.kripp.alpha` package which offers several other reliability measures but requires
-    the full observation matrix. TODO(jucor): Find how to cite Hayes 2007 properly
+    the full observation matrix.
 License: file LICENSE
 Encoding: UTF-8
 URL: http://github.com/jucor/krippendorff
@@ -21,4 +21,6 @@ Imports:
   RcppArmadillo
 LinkingTo: Rcpp, RcppArmadillo
 Suggests: 
-  testthat
+  testthat,
+  devtools
+RoxygenNote: 7.1.1
