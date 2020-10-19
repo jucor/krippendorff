@@ -4,14 +4,16 @@ context("Boostrap")
 
 test_that("Bootstrap on nominal data", {
   skip("TODO(jucor): implement for more than 2 observers")
-  nboot = 1000
+  nboot <- 1000
   mwebreliability5
-  result <- kboot(DT = mwebreliability5, #,news.tone,
-                         unit = "unit",
-                         measurement = "measurement",
-                         observer = "observer",
-                         level = "nominal",
-                         nboot = nboot)
+  result <- kboot(
+    DT = mwebreliability5, # ,news.tone,
+    unit = "unit",
+    measurement = "measurement",
+    observer = "observer",
+    level = "nominal",
+    nboot = nboot
+  )
   expect_equal(length(result$samples), nboot)
   expect_gt(result$ll95, 0)
   expect_gt(result$ul95, 0)
@@ -22,14 +24,16 @@ test_that("Bootstrap on nominal data", {
 
 test_that("Bootstrap with non-standard names", {
   skip("TODO(jucor): implement for more than 2 observers")
-  nboot = 1000
+  nboot <- 1000
   colnames(mwebreliability5) <- c("myunit", "myobs", "mymeasure")
-  result <- kboot(DT = mwebreliability5, #,news.tone,
-                         unit = "myunit",
-                         measurement = "mymeasure",
-                         observer = "myobs",
-                         level = "nominal",
-                         nboot = nboot)
+  result <- kboot(
+    DT = mwebreliability5, # ,news.tone,
+    unit = "myunit",
+    measurement = "mymeasure",
+    observer = "myobs",
+    level = "nominal",
+    nboot = nboot
+  )
   expect_equal(length(result$samples), nboot)
   expect_gt(result$ll95, 0)
   expect_gt(result$ul95, 0)
@@ -40,15 +44,19 @@ test_that("Bootstrap with non-standard names", {
 
 test_that("Bootstrap with only two observers", {
   nboot <- 1000
-  DT <- data.table(unit = c(1,1,2,2,3,3),
-                     observer = as.factor(c(1,2,1,2,1,2)),
-                     measurement=c(0,0,1,1,0,0))
-  result <- kboot(DT = DT,
-                         unit = "unit",
-                         measurement = "measurement",
-                         observer = "observer",
-                         level = "nominal",
-                         nboot = nboot)
+  DT <- data.table(
+    unit = c(1, 1, 2, 2, 3, 3),
+    observer = as.factor(c(1, 2, 1, 2, 1, 2)),
+    measurement = c(0, 0, 1, 1, 0, 0)
+  )
+  result <- kboot(
+    DT = DT,
+    unit = "unit",
+    measurement = "measurement",
+    observer = "observer",
+    level = "nominal",
+    nboot = nboot
+  )
   expect_equal(length(result$samples), nboot)
   expect_gt(result$ll95, 0)
   expect_gt(result$ul95, 0)

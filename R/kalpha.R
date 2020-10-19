@@ -9,10 +9,12 @@
 #'     and as many rows as units.
 #' @export
 to.long.form <- function(DT, unit, observers, measurements) {
-  data.table::melt(DT, id.vars = unit,
-                   measure.vars = observers,
-                   value.name = measurements,
-                   variable.name = "observer")
+  data.table::melt(DT,
+    id.vars = unit,
+    measure.vars = observers,
+    value.name = measurements,
+    variable.name = "observer"
+  )
 }
 #' Compute Krippendorff's Alpha
 #'
@@ -39,13 +41,15 @@ to.long.form <- function(DT, unit, observers, measurements) {
 #' @import data.table
 # TODO(jucor): add default 'nominal'
 kalpha <- function(DT, unit, measurement, level) {
-  . = mu = N = NULL # due to NSE notes in R CMD check
+  . <- mu <- N <- NULL # due to NSE notes in R CMD check
 
   count <- switch(level,
-         binary = countNominal,
-         nominal = countNominal)
-  if (is.null(count))
+    binary = countNominal,
+    nominal = countNominal
+  )
+  if (is.null(count)) {
     stop("Level %s unknown, must be one of 'binary', 'nominal'")
+  }
 
   stopifnot(is.data.table(DT))
 
@@ -55,26 +59,29 @@ kalpha <- function(DT, unit, measurement, level) {
 
   # Compute one mu value per unit.
   by.unit <- values.by.unit[, .(
-                                 Do = countNominal(.SD$N),
-                                 mu = sum(.SD$N)
-                               ),
-                               by=unit]
+    Do = countNominal(.SD$N),
+    mu = sum(.SD$N)
+  ),
+  by = unit
+  ]
 
   # Compute one mu value per unit and repeat it for each measurement within the unit
   values.by.unit[,
-                 mu := sum(N),
-                 by = unit]
+    mu := sum(N),
+    by = unit
+  ]
 
   # Omit all units with a single value
   nc <- values.by.unit[mu >= 2,
-                       .(N = sum(N)),
-                       by=measurement]
+    .(N = sum(N)),
+    by = measurement
+  ]
 
-  n <- nc[,sum(N)]
-  De <- countNominal(nc[, N])/n
-  Do <- sum(by.unit$Do)/n
+  n <- nc[, sum(N)]
+  De <- countNominal(nc[, N]) / n
+  Do <- sum(by.unit$Do) / n
 
-  alpha <- 1 - Do/De
+  alpha <- 1 - Do / De
 
   list(alpha = alpha, Do = Do, De = De, n = n, by.unit = by.unit)
 }
@@ -102,40 +109,43 @@ kalpha <- function(DT, unit, measurement, level) {
 #' @importFrom stats ecdf quantile
 #' @export
 kboot <- function(DT, unit, observer, measurement, level, nboot) {
-  . = mu = o1 = o2 = delta = m1 = m2 = e = deviation = alpha = NULL  # due to NSE notes in R CMD check
+  . <- mu <- o1 <- o2 <- delta <- m1 <- m2 <- e <- deviation <- alpha <- NULL # due to NSE notes in R CMD check
 
-  if (!(level %in% c('binary', 'nominal')))
+  if (!(level %in% c("binary", "nominal"))) {
     stop("Boostrap only implemented for binary and nominal data")
+  }
 
-  if (DT[, nlevels(observer)] != 2)
+  if (DT[, nlevels(observer)] != 2) {
     stop("Bootstrap currently only implemented for exactly 2 observers")
+  }
 
   # compute expected disagreement from the main alpha
   point.estimate <- kalpha(DT, unit, measurement, level)
   De <- point.estimate$De
   N <- point.estimate$n
-  N0 <- point.estimate$by.unit[, sum(.5 * (mu-1)*mu)]
+  N0 <- point.estimate$by.unit[, sum(.5 * (mu - 1) * mu)]
 
 
   # use a join to generate all pairs
   setkeyv(DT, c(unit))
   pairs <- DT[
-      DT, allow.cartesian=TRUE
-    ][, c(
+    DT,
+    allow.cartesian = TRUE
+  ][, c(
     unit,
     observer,
-    paste("i", observer, sep="."),
+    paste("i", observer, sep = "."),
     measurement,
-    paste("i", measurement, sep=".")
+    paste("i", measurement, sep = ".")
   ), with = FALSE]
   colnames(pairs) <- c("unit", "o1", "o2", "m1", "m2")
 
   # Order observers for simplicity
-  pairs[ , ":="(o1 = as.ordered(o1),
-                o2 = as.ordered(o2))]
+  pairs[, ":="(o1 = as.ordered(o1),
+    o2 = as.ordered(o2))]
 
   # drop self-pairs
-  pairs.not.self <- pairs[ o1 < o2]
+  pairs.not.self <- pairs[o1 < o2]
 
 
   # compute deviation E on all pairs
@@ -146,8 +156,8 @@ kboot <- function(DT, unit, observer, measurement, level, nboot) {
   pairs.not.self[, e := delta / (N * De)]
   # join to get the mu for each pair of each unit
   setnames(point.estimate$by.unit, unit, "unit")
-  pairs.with.mu <- point.estimate$by.unit[pairs.not.self, on="unit"]
-  deviations <- pairs.with.mu[, .(deviation=e/(mu-1)), keyby="unit"]
+  pairs.with.mu <- point.estimate$by.unit[pairs.not.self, on = "unit"]
+  deviations <- pairs.with.mu[, .(deviation = e / (mu - 1)), keyby = "unit"]
 
 
 
@@ -164,28 +174,28 @@ kboot <- function(DT, unit, observer, measurement, level, nboot) {
   # without stratifying.
   # TODO(jucor): implement bootstrap for more than two graders
   sampled.deviations <- deviations[
-    sample.int(.N, .N * nboot, replace=TRUE),
-    .(deviation, sample=seq(1, nboot))]
+    sample.int(.N, .N * nboot, replace = TRUE),
+    .(deviation, sample = seq(1, nboot))
+  ]
 
 
   # TODO(jucor): for the case where mu is constant throughout all units (e.g. for 2 observers),
   # sample from the much much smaller observed coincidence matrix rather than from all the pairs.
 
   # And compute the final alphas, summing over the deviations for each unit
-  samples <- sampled.deviations[, .(alpha = 1 - sum(deviation)), by="sample"]
+  samples <- sampled.deviations[, .(alpha = 1 - sum(deviation)), by = "sample"]
 
   alphamin <- seq(.5, .9, .1)
   q <- ecdf(samples[, alpha])(alphamin)
-  ci <- quantile(samples[,alpha], c(.025, .975))
+  ci <- quantile(samples[, alpha], c(.025, .975))
   list(
     ll95 = ci[1],
     ul95 = ci[2],
     q.alphamin = data.frame(alphamin, q),
     samples = samples[, alpha]
   )
-
 }
 
-.onUnload <- function (libpath) {
+.onUnload <- function(libpath) {
   library.dynam.unload("krippendorff", libpath)
 }
