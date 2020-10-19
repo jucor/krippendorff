@@ -1,9 +1,10 @@
-<!-- badges: start -->
-[![R build status](https://github.com/jucor/krippendorff/workflows/R-CMD-check/badge.svg)](https://github.com/jucor/krippendorff/actions)
-<!-- badges: end -->
-  
 # R package - Krippendorff Alpha for reliability analysis
 
+<!-- badges: start -->
+[![R build status](https://github.com/jucor/krippendorff/workflows/R-CMD-check/badge.svg)](https://github.com/jucor/krippendorff/actions)
+[![Codecov test coverage](https://codecov.io/gh/jucor/krippendorff/branch/master/graph/badge.svg)](https://codecov.io/gh/jucor/krippendorff?branch=master)
+<!-- badges: end -->
+  
 This is an R package used to do the reliability analysis. While the packaging is not finished, the key functions are there.
 
 ## Introduction
