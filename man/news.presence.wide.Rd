@@ -3,7 +3,7 @@
 \docType{data}
 \name{news.presence.wide}
 \alias{news.presence.wide}
-\title{Two observers, binary reliability data - section 11.3.1 from Krippendorff 2004}
+\title{Two observers, binary reliability data, section 11.3.1 from Krippendorff 2004}
 \format{
 A data frame with 10 rows and 3 variables:
 \describe{

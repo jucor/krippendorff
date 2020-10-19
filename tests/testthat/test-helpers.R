@@ -4,8 +4,8 @@ context("Helper functions")
 
 test_that("Melt works as expected", {
   expected <- news.presence
-  obtained <- to.long.form(
-    DT = news.presence.wide,
+  obtained <- to_long_form(
+    dt = news.presence.wide,
     unit = "article",
     observers = c("jon", "han"),
     measurements = "presence"

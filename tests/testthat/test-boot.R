@@ -46,13 +46,13 @@ test_that("Bootstrap with non-standard names", {
 
 test_that("Bootstrap with only two observers", {
   nboot <- 1000
-  DT <- data.table(
+  dt <- data.table(
     unit = c(1, 1, 2, 2, 3, 3),
     observer = as.factor(c(1, 2, 1, 2, 1, 2)),
     measurement = c(0, 0, 1, 1, 0, 0)
   )
   result <- kboot(
-    DT = DT,
+    dt = dt,
     unit = "unit",
     measurement = "measurement",
     observer = "observer",

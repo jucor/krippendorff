@@ -17,11 +17,11 @@ mwebreliability5
 }
 \description{
 Example reliablility data, with multiple observers and missing data,
-from Krippendorf (2013, page 4), 4 observers, 12 units. This example can be interpreted
-either as nominal, ordinal, or interval data
+from Krippendorf (2013, page 4), 4 observers, 12 units. This example can be
+interpreted either as nominal, ordinal, or interval data
 }
 \details{
-It is cast to long form,
+It is cast to_long_form,
 with missing observations removed from the dataset.
 See \code{\link{mwebreliability5.wide}} for the wide version ontaining NA.
 

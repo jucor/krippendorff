@@ -5,7 +5,7 @@ context("Nominal data")
 
 test_that("K-alpha on partial nominal data", {
   results <- kalpha(
-    DT = mwebreliability5,
+    dt = mwebreliability5,
     unit = "unit",
     measurement = "measurement",
     level = "nominal"

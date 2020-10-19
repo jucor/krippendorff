@@ -1,7 +1,7 @@
 #' News coverage reliability data set, Table 1 from Hayes & Krippendorff 2007
 #'
 #' An example reliability data set from Hayes & Krippendorf (2007). It is cast
-#' to long form, with missing observations simply not present in the dataset:
+#' to_long_form, with missing observations simply not present in the dataset:
 #' there are no NA in this dataset. See \code{\link{news.tone.wide}} for the
 #' wide version ontaining NA.
 #'

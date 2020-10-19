@@ -6,16 +6,18 @@
 This function implements the bootstrap of Krippendorff's Alpha as per
 http://web.asc.upenn.edu/usr/krippendorff/boot.c-Alpha.pdf}
 \usage{
-kboot(DT, unit, observer, measurement, level, nboot)
+kboot(dt, unit, observer, measurement, level, nboot)
 }
 \arguments{
-\item{DT}{`data.table` containing the reliability data in long format}
+\item{dt}{`data.table` containing the reliability data in long format}
 
 \item{unit}{Name of the column containing the unit ID}
 
-\item{observer}{Name of the column containing the observer name, one per judge}
+\item{observer}{Name of the column containing the observer name, one per
+judge}
 
-\item{measurement}{Name of the column containing the measurements, one per judge}
+\item{measurement}{Name of the column containing the measurements, one per
+judge}
 
 \item{level}{c('binary', 'nominal'): type of oberverment data.}
 
@@ -25,10 +27,11 @@ kboot(DT, unit, observer, measurement, level, nboot)
 \item{samples}{Vector of nboot sampled alphas}
 \item{ll95}{Lower limit of 95\% CI interval}
 \item{ul95}{Upper limit of 95\% CI interval}
-\item{q.alphamin}{Probability of failure to achieve an alpha of at least alphamin, dataframe with alphamin and q}
+\item{q.alphamin}{Probability of failure to achieve an alpha of at least
+alphamin, dataframe with alphamin and q}
 }
 \description{
-It is designed to be space efficient for sparse oberverments, and as thus does
-not take as input a reliability matrix, but a long-format data.table
+It is designed to be space efficient for sparse oberverments, and as thus
+does not take as input a reliability matrix, but a long-format data.table
 TODO(jucor): cite properly
 }

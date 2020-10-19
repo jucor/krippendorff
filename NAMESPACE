@@ -2,7 +2,7 @@
 
 export(kalpha)
 export(kboot)
-export(to.long.form)
+export(to_long_form)
 import(data.table)
 importFrom(Rcpp,sourceCpp)
 importFrom(stats,ecdf)

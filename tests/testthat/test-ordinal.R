@@ -4,7 +4,7 @@ context("Ordinal data")
 
 test_that("K-alpha", {
   expect_error(kalpha(
-    DT = nominal,
+    dt = nominal,
     unit = "unit",
     measurement = "measurement",
     level = "ordinal"

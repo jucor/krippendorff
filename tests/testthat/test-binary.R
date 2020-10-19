@@ -6,7 +6,7 @@ context("Binary data")
 
 test_that("K-alpha on full binary data", {
   expect_equal(kalpha(
-    DT = news.presence,
+    dt = news.presence,
     unit = "article",
     measurement = "presence",
     level = "binary"

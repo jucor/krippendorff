@@ -1,6 +1,6 @@
 #' Turn an observation data.frame into a long data.table
 #'
-#' @param DT `data.table` containing the reliability data in wide format
+#' @param dt `data.table` containing the reliability data in wide format
 #' @param unit Name of the column containing the unit ID
 #' @param observers List of names of the columns containing the oberverments,
 #'   one per observer
@@ -9,8 +9,8 @@
 #' @return A long-form melted data.table with the same unit column and two new
 #'   columns "observer" and measurements and as many rows as units.
 #' @export
-to.long.form <- function(DT, unit, observers, measurements) {
-  data.table::melt(DT,
+to_long_form <- function(dt, unit, observers, measurements) {
+  data.table::melt(dt,
     id.vars = unit,
     measure.vars = observers,
     value.name = measurements,
@@ -26,7 +26,7 @@ to.long.form <- function(DT, unit, observers, measurements) {
 #' does not take as input a reliability matrix, but a long-format data.table
 #' TODO(jucor): cite properly
 #'
-#' @param DT `data.table` containing the reliability data in long format
+#' @param dt `data.table` containing the reliability data in long format
 #' @param unit Name of the column containing the unit ID
 #' @param measurement Name of the column containing the measurements, one per
 #'   judge
@@ -35,15 +35,15 @@ to.long.form <- function(DT, unit, observers, measurements) {
 #' \item{alpha}{Krippendorff's Alpha reliability index}
 #' \item{De}{Expected disagreement}
 #' \item{Do}{Overall observed disagreement accross all units}
-#' \item{by.unit}{Dataframe with one line per unit and columns}
+#' \item{by_unit}{Dataframe with one line per unit and columns}
 #' \item{unit}{Unit}
 #' \item{mu}{Number of observations in that unit}
 #' \item{Do}{Observed disagreement within this unit}
 #' @export
 #' @import data.table
 # TODO(jucor): add default 'nominal'
-kalpha <- function(DT, unit, measurement, level) {
-  . <- mu <- N <- NULL # due to NSE notes in R CMD check
+kalpha <- function(dt, unit, measurement, level) {
+  . <- mu <- N <- NULL # due to NSE notes in R CMD check # nolint
 
   count <- switch(level,
     binary = countNominal,
@@ -53,14 +53,14 @@ kalpha <- function(DT, unit, measurement, level) {
     stop("Level %s unknown, must be one of 'binary', 'nominal'")
   }
 
-  stopifnot(is.data.table(DT))
+  stopifnot(is.data.table(dt))
 
-  data.table::setkeyv(DT, c(unit, measurement))
+  data.table::setkeyv(dt, c(unit, measurement))
 
-  values.by.unit <- DT[, .N, by = c(unit, measurement)]
+  values_by_unit <- dt[, .N, by = c(unit, measurement)]
 
   # Compute one mu value per unit.
-  by.unit <- values.by.unit[, .(
+  by_unit <- values_by_unit[, .(
     Do = countNominal(.SD$N),
     mu = sum(.SD$N)
   ),
@@ -69,24 +69,24 @@ kalpha <- function(DT, unit, measurement, level) {
 
   # Compute one mu value per unit and repeat it for each measurement within the
   # unit
-  values.by.unit[,
+  values_by_unit[,
     mu := sum(N),
     by = unit
   ]
 
   # Omit all units with a single value
-  nc <- values.by.unit[mu >= 2,
+  nc <- values_by_unit[mu >= 2,
     .(N = sum(N)),
     by = measurement
   ]
 
   n <- nc[, sum(N)]
-  De <- countNominal(nc[, N]) / n
-  Do <- sum(by.unit$Do) / n
+  De <- countNominal(nc[, N]) / n # nolint
+  Do <- sum(by_unit$Do) / n # nolint
 
   alpha <- 1 - Do / De
 
-  list(alpha = alpha, Do = Do, De = De, n = n, by.unit = by.unit)
+  list(alpha = alpha, Do = Do, De = De, n = n, by_unit = by_unit)
 }
 
 
@@ -98,7 +98,7 @@ kalpha <- function(DT, unit, measurement, level) {
 #' does not take as input a reliability matrix, but a long-format data.table
 #' TODO(jucor): cite properly
 #'
-#' @param DT `data.table` containing the reliability data in long format
+#' @param dt `data.table` containing the reliability data in long format
 #' @param unit Name of the column containing the unit ID
 #' @param observer Name of the column containing the observer name, one per
 #'   judge
@@ -114,7 +114,7 @@ kalpha <- function(DT, unit, measurement, level) {
 #' @import data.table
 #' @importFrom stats ecdf quantile
 #' @export
-kboot <- function(DT, unit, observer, measurement, level, nboot) {
+kboot <- function(dt, unit, observer, measurement, level, nboot) {
   . <- mu <- o1 <- o2 <- delta <- NULL # due to NSE notes in R CMD check
   m1 <- m2 <- e <- deviation <- alpha <- NULL # due to NSE notes in R CMD check
 
@@ -122,21 +122,21 @@ kboot <- function(DT, unit, observer, measurement, level, nboot) {
     stop("Boostrap only implemented for binary and nominal data")
   }
 
-  if (DT[, nlevels(observer)] != 2) {
+  if (dt[, nlevels(observer)] != 2) {
     stop("Bootstrap currently only implemented for exactly 2 observers")
   }
 
   # compute expected disagreement from the main alpha
-  point.estimate <- kalpha(DT, unit, measurement, level)
-  De <- point.estimate$De
-  N <- point.estimate$n
-  N0 <- point.estimate$by.unit[, sum(.5 * (mu - 1) * mu)]
+  point_estimate <- kalpha(dt, unit, measurement, level)
+  De <- point_estimate$De # nolint
+  N <- point_estimate$n # nolint
+  N0 <- point_estimate$by_unit[, sum(.5 * (mu - 1) * mu)] # nolint
 
 
   # use a join to generate all pairs
-  setkeyv(DT, c(unit))
-  pairs <- DT[
-    DT,
+  setkeyv(dt, c(unit))
+  pairs <- dt[
+    dt,
     allow.cartesian = TRUE
   ][, c(
     unit,
@@ -152,20 +152,20 @@ kboot <- function(DT, unit, observer, measurement, level, nboot) {
     o2 = as.ordered(o2))]
 
   # drop self-pairs
-  pairs.not.self <- pairs[o1 < o2]
+  pairs_not_self <- pairs[o1 < o2]
 
 
   # compute deviation E on all pairs
   # TODO(jucor): compute delta for ordinal and interval
-  pairs.not.self[, delta := as.numeric(m1 != m2)]
+  pairs_not_self[, delta := as.numeric(m1 != m2)]
   # For some unclear reason, we do not need the factor 2 present in
   # boot.c-Alpha.pdf
   # TODO(jucor): figure out why :p
-  pairs.not.self[, e := delta / (N * De)]
+  pairs_not_self[, e := delta / (N * De)]
   # join to get the mu for each pair of each unit
-  setnames(point.estimate$by.unit, unit, "unit")
-  pairs.with.mu <- point.estimate$by.unit[pairs.not.self, on = "unit"]
-  deviations <- pairs.with.mu[, .(deviation = e / (mu - 1)), keyby = "unit"]
+  setnames(point_estimate$by_unit, unit, "unit")
+  pairs_with_mu <- point_estimate$by_unit[pairs_not_self, on = "unit"]
+  deviations <- pairs_with_mu[, .(deviation = e / (mu - 1)), keyby = "unit"]
 
 
 
@@ -175,16 +175,16 @@ kboot <- function(DT, unit, observer, measurement, level, nboot) {
   # TODO(jucor): potential speed-up by *not* bootstrapping the units within
   # which the deviation is constant (e.g. units where all graders agree on the
   # same grade)
-  # sampled.deviations.by.unit <- deviations[,
+  # sampled.deviations.by_unit <- deviations[,
   #   .(sample = 1:nboot, deviations = bootstrapWithinUnit(deviation, nboot)),
   #   keyby="unit"]
   # =============================
 
 
-  # Since we know for now taht we only have two graders, hence mu=2 for all units, we can resample pairs accross units
-  # without stratifying.
+  # Since we know for now taht we only have two graders, hence mu=2 for all
+  # units, we can resample pairs accross units without stratifying.
   # TODO(jucor): implement bootstrap for more than two graders
-  sampled.deviations <- deviations[
+  sampled_deviations <- deviations[
     sample.int(.N, .N * nboot, replace = TRUE),
     .(deviation, sample = seq(1, nboot))
   ]
@@ -195,7 +195,7 @@ kboot <- function(DT, unit, observer, measurement, level, nboot) {
   # matrix rather than from all the pairs.
 
   # And compute the final alphas, summing over the deviations for each unit
-  samples <- sampled.deviations[, .(alpha = 1 - sum(deviation)), by = "sample"]
+  samples <- sampled_deviations[, .(alpha = 1 - sum(deviation)), by = "sample"]
 
   alphamin <- seq(.5, .9, .1)
   q <- ecdf(samples[, alpha])(alphamin)
@@ -208,6 +208,6 @@ kboot <- function(DT, unit, observer, measurement, level, nboot) {
   )
 }
 
-.onUnload <- function(libpath) {
+.onUnload <- function(libpath) { # nolint
   library.dynam.unload("krippendorff", libpath)
 }

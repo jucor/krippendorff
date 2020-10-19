@@ -3,13 +3,14 @@
 \docType{data}
 \name{news.presence}
 \alias{news.presence}
-\title{Two observers, binary reliability data - section 11.3.1 from Krippendorff 2004}
+\title{Two observers, binary reliability data, section 11.3.1 from Krippendorff 2004}
 \format{
 A data frame with 10 rows and 3 variables:
 \describe{
 \item{article}{Article observed.}
 \item{observer}{Name of the observer.}
-\item{presence}{Indicator of observed presence of reference to the United States.}
+\item{presence}{Indicator of observed presence of reference to the United
+States.}
 }
 }
 \usage{

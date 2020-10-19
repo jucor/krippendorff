@@ -4,14 +4,15 @@
 \alias{kalpha}
 \title{Compute Krippendorff's Alpha}
 \usage{
-kalpha(DT, unit, measurement, level)
+kalpha(dt, unit, measurement, level)
 }
 \arguments{
-\item{DT}{`data.table` containing the reliability data in long format}
+\item{dt}{`data.table` containing the reliability data in long format}
 
 \item{unit}{Name of the column containing the unit ID}
 
-\item{measurement}{Name of the column containing the measurements, one per judge}
+\item{measurement}{Name of the column containing the measurements, one per
+judge}
 
 \item{level}{c('binary', 'nominal'): type of oberverment data.}
 }
@@ -19,17 +20,17 @@ kalpha(DT, unit, measurement, level)
 \item{alpha}{Krippendorff's Alpha reliability index}
 \item{De}{Expected disagreement}
 \item{Do}{Overall observed disagreement accross all units}
-\item{by.unit}{Dataframe with one line per unit and columns}
+\item{by_unit}{Dataframe with one line per unit and columns}
 \item{unit}{Unit}
 \item{mu}{Number of observations in that unit}
 \item{Do}{Observed disagreement within this unit}
 }
 \description{
 This function implements the computation of  Krippendorff's Alpha as per
-https://repository.upenn.edu/cgi/viewcontent.cgi?article=1043&context=asc_papers
+https://repository.upenn.edu/cgi/viewcontent.cgi?article=1043&context=asc_papers # nolint
 }
 \details{
-It is designed to be space efficient for sparse oberverments, and as thus does
-not take as input a reliability matrix, but a long-format data.table
+It is designed to be space efficient for sparse oberverments, and as thus
+does not take as input a reliability matrix, but a long-format data.table
 TODO(jucor): cite properly
 }
