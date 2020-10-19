@@ -39,6 +39,7 @@ repos:
     -   id: deps-in-desc
     -   id: roxygenize
     -   id: use-tidy-description
+    -   id: style-files
 -   repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v3.2.0
     hooks:
