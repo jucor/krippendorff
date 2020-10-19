@@ -5,14 +5,10 @@ raw.matrix <- read.table('data-raw/news.presence.krippendorff2004.11.3.1.csv', s
 news.presence.wide <- data.table(t(raw.matrix[,-1]))
 colnames(news.presence.wide) <- raw.matrix[,1]
 rownames(news.presence.wide) <- NULL
-save(news.presence.wide,
-     file="data/news.presence.wide.rda",
-     compress="bzip2")
 
 news.presence <- melt(news.presence.wide,
                            id.vars='article',
                            variable.name='observer',
                            value.name='presence')
-save(news.presence,
-     file="data/news.presence.rda",
-     compress="bzip2")
+usethis::use_data(news.presence, overwrite=TRUE)
+usethis::use_data(news.presence.wide, overwrite=TRUE)

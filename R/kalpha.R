@@ -3,7 +3,7 @@
 #' @param DT `data.table` containing the reliability data in wide format
 #' @param unit Name of the column containing the unit ID
 #' @param observers List of names of the columns containing the oberverments, one per observer
-#' @param measurement Name of the new column containing the measurements
+#' @param measurements Name of the new column containing the measurements
 #'
 #' @return A long-form melted data.table with the same unit column and two new columns "observer" and measurements
 #'     and as many rows as units.
@@ -23,7 +23,7 @@ to.long.form <- function(DT, unit, observers, measurements) {
 #' not take as input a reliability matrix, but a long-format data.table
 #' TODO(jucor): cite properly
 #'
-#' @param data `data.table` containing the reliability data in long format
+#' @param DT `data.table` containing the reliability data in long format
 #' @param unit Name of the column containing the unit ID
 #' @param measurement Name of the column containing the measurements, one per judge
 #' @param level c('binary', 'nominal'): type of oberverment data.
@@ -88,8 +88,9 @@ kalpha <- function(DT, unit, measurement, level) {
 #' not take as input a reliability matrix, but a long-format data.table
 #' TODO(jucor): cite properly
 #'
-#' @param data `data.table` containing the reliability data in long format
+#' @param DT `data.table` containing the reliability data in long format
 #' @param unit Name of the column containing the unit ID
+#' @param observer Name of the column containing the observer name, one per judge
 #' @param measurement Name of the column containing the measurements, one per judge
 #' @param level c('binary', 'nominal'): type of oberverment data.
 #' @param nboot number of samples alpha to bootstrap

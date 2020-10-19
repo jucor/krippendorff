@@ -12,11 +12,11 @@
 #' readers of Chinese to identify the presence or absence of such references.
 #' They mark each newspaper article "0" for absent or "1" for present.}
 #'
-#' @seealso \link{\code{\news.presence.wide}}
+#' @seealso \code{\link{news.presence.wide}}
 #' @format A data frame with 10 rows and 3 variables:
 #' \describe{
 #' \item{article}{Article observed.}
 #' \item{observer}{Name of the observer.}
 #' \item{presence}{Indicator of observed presence of reference to the United States.}
 #' }
-#' @export
+"news.presence"

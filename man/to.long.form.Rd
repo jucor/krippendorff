@@ -13,7 +13,7 @@ to.long.form(DT, unit, observers, measurements)
 
 \item{observers}{List of names of the columns containing the oberverments, one per observer}
 
-\item{measurement}{Name of the new column containing the measurements}
+\item{measurements}{Name of the new column containing the measurements}
 }
 \value{
 A long-form melted data.table with the same unit column and two new columns "observer" and measurements

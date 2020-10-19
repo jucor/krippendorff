@@ -10,6 +10,5 @@ mwebreliability5.wide <- data.table(t(mwebreliability5.matrix))
 mwebreliability5.wide$unit <- 1:nrow(mwebreliability5.wide)
 mwebreliability5 <- melt(mwebreliability5.wide, id.vars="unit", variable.name="observer", value.name="measurement", na.rm = TRUE)
 
-save(mwebreliability5, file="data/mwebreliability5.rda")
-save(mwebreliability5.wide, file="data/mwebreliability5.wide.rda")
-
+usethis::use_data(mwebreliability5, overwrite=TRUE)
+usethis::use_data(mwebreliability5.wide, overwrite=TRUE)

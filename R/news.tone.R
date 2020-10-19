@@ -27,3 +27,4 @@
 #' \item{Observer}{Name of the observer}
 #' \item{Tone}{Tone rated by the observer, ordinal between 0 and 3}
 #' }
+"news.tone"

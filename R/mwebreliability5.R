@@ -17,3 +17,4 @@
 #' \item{observer}{Name of the observer}
 #' \item{measurement}{Measurement from the observer, between 1 and 4}
 #' }
+"mwebreliability5"

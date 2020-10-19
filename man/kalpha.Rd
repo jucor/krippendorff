@@ -7,13 +7,13 @@
 kalpha(DT, unit, measurement, level)
 }
 \arguments{
+\item{DT}{`data.table` containing the reliability data in long format}
+
 \item{unit}{Name of the column containing the unit ID}
 
 \item{measurement}{Name of the column containing the measurements, one per judge}
 
 \item{level}{c('binary', 'nominal'): type of oberverment data.}
-
-\item{data}{`data.table` containing the reliability data in long format}
 }
 \value{
 \item{alpha}{Krippendorff's Alpha reliability index}

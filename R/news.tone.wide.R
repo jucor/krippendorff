@@ -12,3 +12,4 @@
 #' \item{obs4}{ordinal judgement from observer 4}
 #' \item{obs5}{ordinal judgement from observer 5}
 #' }
+"news.tone.wide"

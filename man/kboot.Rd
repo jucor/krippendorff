@@ -9,15 +9,17 @@ http://web.asc.upenn.edu/usr/krippendorff/boot.c-Alpha.pdf}
 kboot(DT, unit, observer, measurement, level, nboot)
 }
 \arguments{
+\item{DT}{`data.table` containing the reliability data in long format}
+
 \item{unit}{Name of the column containing the unit ID}
+
+\item{observer}{Name of the column containing the observer name, one per judge}
 
 \item{measurement}{Name of the column containing the measurements, one per judge}
 
 \item{level}{c('binary', 'nominal'): type of oberverment data.}
 
 \item{nboot}{number of samples alpha to bootstrap}
-
-\item{data}{`data.table` containing the reliability data in long format}
 }
 \value{
 \item{samples}{Vector of nboot sampled alphas}
