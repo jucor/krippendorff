@@ -7,6 +7,7 @@ These functions were written to handle computation of Krippendorff's Alpha relia
 
 ## Features
 This package:
+
 - computes Krippendorff's Alpha as was described in Krippendorf (2011)  [Computing Krippendorff’s Alpha-Reliability](https://repository.upenn.edu/cgi/viewcontent.cgi?article=1043&context=asc_papers).
 - should work for binary and for nominal variables alike
 - returns 
@@ -34,3 +35,5 @@ remotes::install_github("jucor/krippendorff")
 - [ ] Replace `packrat` by `renv`
 - [ ] Publish to CRAN
 - [ ] Review bootstrapping
+- [ ] Check current alpha name from Krippendorff 2020 draft
+- [ ] Implement majority vote vs expert (with proper name)
