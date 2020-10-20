@@ -13,4 +13,4 @@
 #' \item{V3}{measurement from observer 3}
 #' \item{V4}{measurement from observer 4}
 #' }
-"mwebreliability5.wide"
+"mwebreliability5_wide"

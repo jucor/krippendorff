@@ -3,9 +3,9 @@ library(data.table)
 context("Helper functions")
 
 test_that("Melt works as expected", {
-  expected <- news.presence
+  expected <- news_presence
   obtained <- to_long_form(
-    dt = news.presence.wide,
+    dt = news_presence_wide,
     unit = "article",
     observers = c("jon", "han"),
     measurements = "presence"

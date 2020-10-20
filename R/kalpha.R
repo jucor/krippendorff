@@ -46,8 +46,8 @@ kalpha <- function(dt, unit, measurement, level) {
   . <- mu <- N <- NULL # due to NSE notes in R CMD check # nolint
 
   count <- switch(level,
-    binary = countNominal,
-    nominal = countNominal
+    binary = count_nominal,
+    nominal = count_nominal
   )
   if (is.null(count)) {
     stop("Level %s unknown, must be one of 'binary', 'nominal'")
@@ -61,7 +61,7 @@ kalpha <- function(dt, unit, measurement, level) {
 
   # Compute one mu value per unit.
   by_unit <- values_by_unit[, .(
-    Do = countNominal(.SD$N),
+    Do = count_nominal(.SD$N),
     mu = sum(.SD$N)
   ),
   by = unit
@@ -81,7 +81,7 @@ kalpha <- function(dt, unit, measurement, level) {
   ]
 
   n <- nc[, sum(N)]
-  De <- countNominal(nc[, N]) / n # nolint
+  De <- count_nominal(nc[, N]) / n # nolint
   Do <- sum(by_unit$Do) / n # nolint
 
   alpha <- 1 - Do / De

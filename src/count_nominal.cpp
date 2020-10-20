@@ -6,7 +6,7 @@ using namespace Rcpp;
 
 // @param n
 // [[Rcpp::export]]
-double countNominal(NumericVector n) {
+double count_nominal(NumericVector n) {
 // TODO(jucor): might need to rewrite with better numerical precision...
     double ratio, cardinal;
     int d = n.size();

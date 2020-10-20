@@ -6,33 +6,33 @@
 
 using namespace Rcpp;
 
-// bootstrapWithinUnit
-NumericVector bootstrapWithinUnit(NumericVector deviations, int nboot);
-RcppExport SEXP _krippendorff_bootstrapWithinUnit(SEXP deviationsSEXP, SEXP nbootSEXP) {
+// bootstrap_within_unit
+NumericVector bootstrap_within_unit(NumericVector deviations, int nboot);
+RcppExport SEXP _krippendorff_bootstrap_within_unit(SEXP deviationsSEXP, SEXP nbootSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type deviations(deviationsSEXP);
     Rcpp::traits::input_parameter< int >::type nboot(nbootSEXP);
-    rcpp_result_gen = Rcpp::wrap(bootstrapWithinUnit(deviations, nboot));
+    rcpp_result_gen = Rcpp::wrap(bootstrap_within_unit(deviations, nboot));
     return rcpp_result_gen;
 END_RCPP
 }
-// countNominal
-double countNominal(NumericVector n);
-RcppExport SEXP _krippendorff_countNominal(SEXP nSEXP) {
+// count_nominal
+double count_nominal(NumericVector n);
+RcppExport SEXP _krippendorff_count_nominal(SEXP nSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type n(nSEXP);
-    rcpp_result_gen = Rcpp::wrap(countNominal(n));
+    rcpp_result_gen = Rcpp::wrap(count_nominal(n));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_krippendorff_bootstrapWithinUnit", (DL_FUNC) &_krippendorff_bootstrapWithinUnit, 2},
-    {"_krippendorff_countNominal", (DL_FUNC) &_krippendorff_countNominal, 1},
+    {"_krippendorff_bootstrap_within_unit", (DL_FUNC) &_krippendorff_bootstrap_within_unit, 2},
+    {"_krippendorff_count_nominal", (DL_FUNC) &_krippendorff_count_nominal, 1},
     {NULL, NULL, 0}
 };
 

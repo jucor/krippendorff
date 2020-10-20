@@ -6,11 +6,11 @@
 #'
 #' It is cast to_long_form,
 #' with missing observations removed from the dataset.
-#' See \code{\link{mwebreliability5.wide}} for the wide version ontaining NA.
+#' See \code{\link{mwebreliability5_wide}} for the wide version ontaining NA.
 #'
 #' TODO(jucor): Find how to cite Hayes 2013 properly with @references
 #'
-#' @seealso \code{\link{mwebreliability5.wide}}
+#' @seealso \code{\link{mwebreliability5_wide}}
 #' @format A `data.table` with 41 rows and 3 variables:
 #' \describe{
 #' \item{unit}{Unit observed}

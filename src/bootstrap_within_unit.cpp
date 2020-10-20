@@ -12,7 +12,7 @@ using namespace Rcpp;
 // @param nboot Number of bootstrap samples to take
 // @return a NumericVector of nboot summed deviations for that unit. Summing over all units and substracting to 1 will give alpha.
 // [[Rcpp::export]]
-NumericVector bootstrapWithinUnit(NumericVector deviations, int nboot) {
+NumericVector bootstrap_within_unit(NumericVector deviations, int nboot) {
 
   int n = deviations.size();
 
@@ -47,6 +47,6 @@ NumericVector bootstrapWithinUnit(NumericVector deviations, int nboot) {
 //
 
 /*** R
-bootstrapWithinUnit(c(.1, .2, .3), 5)
-bootstrapWithinUnit(c(.1), 5)
+bootstrap_within_unit(c(.1, .2, .3), 5)
+bootstrap_within_unit(c(.1), 5)
 */

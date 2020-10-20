@@ -23,11 +23,11 @@ interpreted either as nominal, ordinal, or interval data
 \details{
 It is cast to_long_form,
 with missing observations removed from the dataset.
-See \code{\link{mwebreliability5.wide}} for the wide version ontaining NA.
+See \code{\link{mwebreliability5_wide}} for the wide version ontaining NA.
 
 TODO(jucor): Find how to cite Hayes 2013 properly with @references
 }
 \seealso{
-\code{\link{mwebreliability5.wide}}
+\code{\link{mwebreliability5_wide}}
 }
 \keyword{datasets}

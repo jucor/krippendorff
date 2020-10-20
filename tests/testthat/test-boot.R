@@ -7,7 +7,7 @@ test_that("Bootstrap on nominal data", {
   nboot <- 1000
   mwebreliability5
   result <- kboot(
-    DT = mwebreliability5, # ,news.tone,
+    DT = mwebreliability5, # ,news_tone,
     unit = "unit",
     measurement = "measurement",
     observer = "observer",
@@ -28,7 +28,7 @@ test_that("Bootstrap with non-standard names", {
   nboot <- 1000
   colnames(mwebreliability5) <- c("myunit", "myobs", "mymeasure")
   result <- kboot(
-    DT = mwebreliability5, # ,news.tone,
+    DT = mwebreliability5, # ,news_tone,
     unit = "myunit",
     measurement = "mymeasure",
     observer = "myobs",

@@ -1,7 +1,7 @@
 #' News coverage reliability data set, Table 1 from Hayes & Krippendorff 2007
 #'
-#' Wide format of the data in \code{\link{news.tone}}.
-#' @seealso \code{\link{news.tone}}
+#' Wide format of the data in \code{\link{news_tone}}.
+#' @seealso \code{\link{news_tone}}
 #'
 #' @format A data frame with 40 rows and 6 variables:
 #' \describe{
@@ -12,4 +12,4 @@
 #' \item{obs4}{ordinal judgement from observer 4}
 #' \item{obs5}{ordinal judgement from observer 5}
 #' }
-"news.tone.wide"
+"news_tone_wide"

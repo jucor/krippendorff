@@ -13,3 +13,4 @@
 ^pkgdown$
 ^LICENSE\.md$
 ^\.pre-commit-config\.yaml$
+^\.lintr$

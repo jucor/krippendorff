@@ -2,7 +2,7 @@
 #'
 #' An example reliability data set from Hayes & Krippendorf (2007). It is cast
 #' to_long_form, with missing observations simply not present in the dataset:
-#' there are no NA in this dataset. See \code{\link{news.tone.wide}} for the
+#' there are no NA in this dataset. See \code{\link{news_tone_wide}} for the
 #' wide version ontaining NA.
 #'
 #' From the original article:
@@ -25,11 +25,11 @@
 #'
 #' TODO(jucor): Find how to cite Hayes 2007 properly with @references
 #'
-#' @seealso \code{\link{news.tone.wide}}
+#' @seealso \code{\link{news_tone_wide}}
 #' @format A `data.table` with 200 rows and 3 variables:
 #' \describe{
 #' \item{Unit}{Unit observed}
 #' \item{Observer}{Name of the observer}
 #' \item{Tone}{Tone rated by the observer, ordinal between 0 and 3}
 #' }
-"news.tone"
+"news_tone"
