@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • krippendorff</title>
+<title>Two observers, binary reliability data, section 11.3.1 from Krippendorff 2004 — news_presence • krippendorff</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,10 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Two observers, binary reliability data, section 11.3.1 from Krippendorff 2004 — news_presence" />
+<meta property="og:description" content="Example reliability data set for two observers, binary data, from
+Krippendorf (2004, Section 11.3.1, page 224). From the original:
+TODO(jucor): cite Krippendorff 2004 properly" />
 
 
 
@@ -58,7 +61,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -105,105 +108,46 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Two observers, binary reliability data, section 11.3.1 from Krippendorff 2004</h1>
+    <small class="dont-index">Source: <a href='http://github.com/jucor/krippendorff/blob/master/R/news_presence.R'><code>R/news_presence.R</code></a></small>
+    <div class="hidden name"><code>news_presence.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Example reliability data set for two observers, binary data, from
+Krippendorf (2004, Section 11.3.1, page 224). From the original:
+TODO(jucor): cite Krippendorff 2004 properly</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='va'>news_presence</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-functions" class="hasAnchor"><a href="#section-functions" class="anchor"></a>Functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="kalpha.html">kalpha()</a></code> </p>
-        </td>
-        <td><p>Compute Krippendorff's Alpha</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="kboot.html">kboot()</a></code> </p>
-        </td>
-        <td><p>Bootstrap Kalpha K times
-This function implements the bootstrap of Krippendorff's Alpha as per
-http://web.asc.upenn.edu/usr/krippendorff/boot.c-Alpha.pdf</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="to_long_form.html">to_long_form()</a></code> </p>
-        </td>
-        <td><p>Turn an observation data.frame into a long data.table</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-example-datasets" class="hasAnchor"><a href="#section-example-datasets" class="anchor"></a>Example datasets</h2>
-          <p class="section-desc"><p>Example datasets gleaned from Krippendorff’s articles for demonstration purposes.</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="mwebreliability5.html">mwebreliability5</a></code> </p>
-        </td>
-        <td><p>Example data from Krippendorff 2013</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="mwebreliability5_wide.html">mwebreliability5_wide</a></code> </p>
-        </td>
-        <td><p>Example data from Krippendorff 2013</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="news_presence.html">news_presence</a></code> </p>
-        </td>
-        <td><p>Two observers, binary reliability data, section 11.3.1 from Krippendorff 2004</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="news_presence_wide.html">news_presence_wide</a></code> </p>
-        </td>
-        <td><p>Two observers, binary reliability data, section 11.3.1 from Krippendorff 2004</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="news_tone.html">news_tone</a></code> </p>
-        </td>
-        <td><p>News coverage reliability data set, Table 1 from Hayes &amp; Krippendorff 2007</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="news_tone_wide.html">news_tone_wide</a></code> </p>
-        </td>
-        <td><p>News coverage reliability data set, Table 1 from Hayes &amp; Krippendorff 2007</p></td>
-      </tr>
-    </tbody>
-    </table>
+
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>A data frame with 10 rows and 3 variables:</p><dl>
+<dt>article</dt><dd><p>Article observed.</p></dd>
+<dt>observer</dt><dd><p>Name of the observer.</p></dd>
+<dt>presence</dt><dd><p>Indicator of observed presence of reference to the United
+States.</p></dd>
+
+</dl>
+
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>&#8220;The conceivably simplest reliability data are generated by two
+observers who assign one of two available values to each of a common set of
+units of analysis. For example, suppose a political scientist is interested
+in references to the United States in the Chinese press and, unable to read
+Chinese, hires two individuals (Jon and Han) who claim to be competent
+readers of Chinese to identify the presence or absence of such references.
+They mark each newspaper article "0" for absent or "1" for present.&#8221;</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='news_presence_wide.html'>news_presence_wide</a></code></p></div>
+
   </div>
-
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

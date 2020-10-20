@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • krippendorff</title>
+<title>News coverage reliability data set, Table 1 from Hayes &amp; Krippendorff 2007 — news_tone • krippendorff</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,11 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="News coverage reliability data set, Table 1 from Hayes &amp; Krippendorff 2007 — news_tone" />
+<meta property="og:description" content="An example reliability data set from Hayes &amp;amp; Krippendorf (2007). It is cast
+to_long_form, with missing observations simply not present in the dataset:
+there are no NA in this dataset. See news_tone_wide for the
+wide version ontaining NA." />
 
 
 
@@ -58,7 +62,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -105,105 +109,57 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>News coverage reliability data set, Table 1 from Hayes &amp; Krippendorff 2007</h1>
+    <small class="dont-index">Source: <a href='http://github.com/jucor/krippendorff/blob/master/R/news_tone.R'><code>R/news_tone.R</code></a></small>
+    <div class="hidden name"><code>news_tone.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>An example reliability data set from Hayes &amp; Krippendorf (2007). It is cast
+to_long_form, with missing observations simply not present in the dataset:
+there are no NA in this dataset. See <code><a href='news_tone_wide.html'>news_tone_wide</a></code> for the
+wide version ontaining NA.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='va'>news_tone</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-functions" class="hasAnchor"><a href="#section-functions" class="anchor"></a>Functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="kalpha.html">kalpha()</a></code> </p>
-        </td>
-        <td><p>Compute Krippendorff's Alpha</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="kboot.html">kboot()</a></code> </p>
-        </td>
-        <td><p>Bootstrap Kalpha K times
-This function implements the bootstrap of Krippendorff's Alpha as per
-http://web.asc.upenn.edu/usr/krippendorff/boot.c-Alpha.pdf</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="to_long_form.html">to_long_form()</a></code> </p>
-        </td>
-        <td><p>Turn an observation data.frame into a long data.table</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-example-datasets" class="hasAnchor"><a href="#section-example-datasets" class="anchor"></a>Example datasets</h2>
-          <p class="section-desc"><p>Example datasets gleaned from Krippendorff’s articles for demonstration purposes.</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="mwebreliability5.html">mwebreliability5</a></code> </p>
-        </td>
-        <td><p>Example data from Krippendorff 2013</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="mwebreliability5_wide.html">mwebreliability5_wide</a></code> </p>
-        </td>
-        <td><p>Example data from Krippendorff 2013</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="news_presence.html">news_presence</a></code> </p>
-        </td>
-        <td><p>Two observers, binary reliability data, section 11.3.1 from Krippendorff 2004</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="news_presence_wide.html">news_presence_wide</a></code> </p>
-        </td>
-        <td><p>Two observers, binary reliability data, section 11.3.1 from Krippendorff 2004</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="news_tone.html">news_tone</a></code> </p>
-        </td>
-        <td><p>News coverage reliability data set, Table 1 from Hayes &amp; Krippendorff 2007</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="news_tone_wide.html">news_tone_wide</a></code> </p>
-        </td>
-        <td><p>News coverage reliability data set, Table 1 from Hayes &amp; Krippendorff 2007</p></td>
-      </tr>
-    </tbody>
-    </table>
+
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>A `data.table` with 200 rows and 3 variables:</p><dl>
+<dt>Unit</dt><dd><p>Unit observed</p></dd>
+<dt>Observer</dt><dd><p>Name of the observer</p></dd>
+<dt>Tone</dt><dd><p>Tone rated by the observer, ordinal between 0 and 3</p></dd>
+
+</dl>
+
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>From the original article:
+&#8220;The data for this example come from five observers who were asked to
+evaluate the local news coverage given to the challenger running against an
+incumbent for a political office in one of several political races. The
+observers were given 40 news- paper articles describing the race published by
+the largest circulation newspaper in the incumbent's district within 1 week
+prior to the election. These 40 articles were randomly selected from the pool
+of all articles published during that 1-week period. Observers rated whether
+the tone of the article suggested the challenger was a sure loser (0),
+somewhat competitive (1), competitive (2), or a likely winner (3). After
+training, observers read and judged the articles independently. The data were
+entered into SPSS such that each article was represented with a row in the
+data file, and each observer's evaluation of the articles was located in the
+columns, with the columns labeled "obs1," "obs2," "obs3," "obs4," and "obs5."
+Thus, in this example, the data occupied a 40 (articles) x 5 (observers)
+matrix, with each cell in the matrix containing a 0, 1, 2, 3, or a period
+character (".") for missing judgments.&#8221;</p>
+<p>TODO(jucor): Find how to cite Hayes 2007 properly with @references</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='news_tone_wide.html'>news_tone_wide</a></code></p></div>
+
   </div>
-
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
