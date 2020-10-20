@@ -6,7 +6,8 @@ Authors@R:
     person(given = "Julien",
            family = "Cornebise",
            role = c("aut", "cre"),
-           email = "julien@cornebise.com")
+           email = "julien@cornebise.com",
+           comment = c(ORCID = "0000-0003-1787-7573"))
 Description: krippendorff computes Krippendorff Alpha for
     reliability analysis, in a space-efficient manner especially suited
     for studies where each observer only grades a small fraction of a
