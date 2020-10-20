@@ -32,7 +32,9 @@ repos:
     #       .*\.sh|
     #       .*\.RData
     #       )$
-    -   id: lintr
+    # Have to deactivate lintr because we use renv, not supported by lintr
+    # See https://github.com/jimhester/lintr/issues/518
+    # -   id: lintr
     -   id: readme-rmd-rendered
     -   id: parsable-R
     -   id: no-browser-statement
