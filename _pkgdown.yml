@@ -1,0 +1,14 @@
+reference:
+- title: Functions
+- contents:
+  - kalpha
+  - kboot
+  - to_long_form
+
+- title: Example datasets
+  desc: >
+    Example datasets gleaned from Krippendorff's articles for demonstration
+    purposes.
+- contents:
+  - starts_with("mwebreliability5")
+  - starts_with("news_")
