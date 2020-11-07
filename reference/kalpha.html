@@ -126,7 +126,7 @@ https://repository.upenn.edu/cgi/viewcontent.cgi?article=1043&amp;context=asc_pa
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>dt</th>
-      <td><p>`data.table` containing the reliability data in long format</p></td>
+      <td><p>`data.table` containing the reliability data in long format.</p></td>
     </tr>
     <tr>
       <th>unit</th>
@@ -158,7 +158,10 @@ judge</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>It is designed to be space efficient for sparse oberverments, and as thus
-does not take as input a reliability matrix, but a long-format data.table
+does not take as input a reliability matrix, but a long-format data.table</p>
+<p>If a tibble or a non-data.table dataframe is passed as input, this function
+will still work! It will silently create a data.table copy of your dataframe
+(or tibble).
 TODO(jucor): cite properly</p>
 
   </div>
