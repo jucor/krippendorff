@@ -10,6 +10,9 @@
 #'   columns "observer" and measurements and as many rows as units.
 #' @export
 to_long_form <- function(dt, unit, observers, measurements) {
+  if (!is.data.table(dt)) {
+    dt <- as.data.table(dt)
+  }
   data.table::melt(dt,
     id.vars = unit,
     measure.vars = observers,
@@ -24,9 +27,13 @@ to_long_form <- function(dt, unit, observers, measurements) {
 #'
 #' It is designed to be space efficient for sparse oberverments, and as thus
 #' does not take as input a reliability matrix, but a long-format data.table
+#'
+#' If a tibble or a non-data.table dataframe is passed as input, this function
+#' will still work! It will silently create a data.table copy of your dataframe
+#' (or tibble).
 #' TODO(jucor): cite properly
 #'
-#' @param dt `data.table` containing the reliability data in long format
+#' @param dt `data.table` containing the reliability data in long format.
 #' @param unit Name of the column containing the unit ID
 #' @param measurement Name of the column containing the measurements, one per
 #'   judge
@@ -53,7 +60,10 @@ kalpha <- function(dt, unit, measurement, level) {
     stop("Level %s unknown, must be one of 'binary', 'nominal'")
   }
 
-  stopifnot(is.data.table(dt))
+  if (!is.data.table(dt)) {
+    dt <- as.data.table(dt)
+  }
+
 
   data.table::setkeyv(dt, c(unit, measurement))
 
@@ -124,6 +134,10 @@ kboot <- function(dt, unit, observer, measurement, level, nboot) {
 
   if (dt[, nlevels(observer)] != 2) {
     stop("Bootstrap currently only implemented for exactly 2 observers")
+  }
+
+  if (!is.data.table(dt)) {
+    dt <- as.data.table(dt)
   }
 
   # compute expected disagreement from the main alpha
