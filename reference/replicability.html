@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Turn an observation data.frame into a long data.table — to_long_form • krippendorff</title>
+<title>Compute Krippendorff's Replicability (formerly Krippendorff Alpha) — replicability • krippendorff</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,9 @@
 
 
 
-<meta property="og:title" content="Turn an observation data.frame into a long data.table — to_long_form" />
-<meta property="og:description" content="Turn an observation data.frame into a long data.table" />
+<meta property="og:title" content="Compute Krippendorff's Replicability (formerly Krippendorff Alpha) — replicability" />
+<meta property="og:description" content="This function implements the computation of  Krippendorff's Alpha as per
+https://repository.upenn.edu/cgi/viewcontent.cgi?article=1043&amp;amp;context=asc_papers # nolint" />
 
 
 
@@ -108,43 +109,60 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Turn an observation data.frame into a long data.table</h1>
+    <h1>Compute Krippendorff's Replicability (formerly Krippendorff Alpha)</h1>
     <small class="dont-index">Source: <a href='http://github.com/jucor/krippendorff/blob/master/R/replicability.R'><code>R/replicability.R</code></a></small>
-    <div class="hidden name"><code>to_long_form.Rd</code></div>
+    <div class="hidden name"><code>replicability.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Turn an observation data.frame into a long data.table</p>
+    <p>This function implements the computation of  Krippendorff's Alpha as per
+https://repository.upenn.edu/cgi/viewcontent.cgi?article=1043&amp;context=asc_papers # nolint</p>
     </div>
 
-    <pre class="usage"><span class='fu'>to_long_form</span><span class='op'>(</span><span class='va'>dt</span>, <span class='va'>unit</span>, <span class='va'>observers</span>, <span class='va'>measurements</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>replicability</span><span class='op'>(</span><span class='va'>dt</span>, <span class='va'>unit</span>, <span class='va'>measurement</span>, <span class='va'>level</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>dt</th>
-      <td><p>`data.table` containing the reliability data in wide format</p></td>
+      <td><p>`data.table` containing the reliability data in long format.</p></td>
     </tr>
     <tr>
       <th>unit</th>
       <td><p>Name of the column containing the unit ID</p></td>
     </tr>
     <tr>
-      <th>observers</th>
-      <td><p>List of names of the columns containing the oberverments,
-one per observer</p></td>
+      <th>measurement</th>
+      <td><p>Name of the column containing the measurements, one per
+judge</p></td>
     </tr>
     <tr>
-      <th>measurements</th>
-      <td><p>Name of the new column containing the measurements</p></td>
+      <th>level</th>
+      <td><p>c('binary', 'nominal'): type of oberverment data.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A long-form melted data.table with the same unit column and two new
-  columns "observer" and measurements and as many rows as units.</p>
+    
+
+<dt>alpha</dt><dd><p>Krippendorff's Alpha reliability index</p></dd>
+<dt>De</dt><dd><p>Expected disagreement</p></dd>
+<dt>Do</dt><dd><p>Overall observed disagreement accross all units</p></dd>
+<dt>by_unit</dt><dd><p>Dataframe with one line per unit and columns</p></dd>
+<dt>unit</dt><dd><p>Unit</p></dd>
+<dt>mu</dt><dd><p>Number of observations in that unit</p></dd>
+<dt>Do</dt><dd><p>Observed disagreement within this unit</p></dd>
+
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>It is designed to be space efficient for sparse oberverments, and as thus
+does not take as input a reliability matrix, but a long-format data.table</p>
+<p>If a tibble or a non-data.table dataframe is passed as input, this function
+will still work! It will silently create a data.table copy of your dataframe
+(or tibble).
+TODO(jucor): cite properly</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
