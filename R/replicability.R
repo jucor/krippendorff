@@ -20,7 +20,7 @@ to_long_form <- function(dt, unit, observers, measurements) {
     variable.name = "observer"
   )
 }
-#' Compute Krippendorff's Alpha
+#' Compute Krippendorff's Replicability (formerly Krippendorff Alpha)
 #'
 #' This function implements the computation of  Krippendorff's Alpha as per
 #' https://repository.upenn.edu/cgi/viewcontent.cgi?article=1043&context=asc_papers # nolint
@@ -49,7 +49,7 @@ to_long_form <- function(dt, unit, observers, measurements) {
 #' @export
 #' @import data.table
 # TODO(jucor): add default 'nominal'
-kalpha <- function(dt, unit, measurement, level) {
+replicability <- function(dt, unit, measurement, level) {
   . <- mu <- N <- NULL # due to NSE notes in R CMD check # nolint
 
   count <- switch(level,
@@ -63,7 +63,6 @@ kalpha <- function(dt, unit, measurement, level) {
   if (!is.data.table(dt)) {
     dt <- as.data.table(dt)
   }
-
 
   data.table::setkeyv(dt, c(unit, measurement))
 
@@ -100,7 +99,7 @@ kalpha <- function(dt, unit, measurement, level) {
 }
 
 
-#' Bootstrap Kalpha K times
+#' Bootstrap replicability K times
 #' This function implements the bootstrap of Krippendorff's Alpha as per
 #' http://web.asc.upenn.edu/usr/krippendorff/boot.c-Alpha.pdf
 #'
@@ -141,7 +140,8 @@ kboot <- function(dt, unit, observer, measurement, level, nboot) {
   }
 
   # compute expected disagreement from the main alpha
-  point_estimate <- kalpha(dt, unit, measurement, level)
+  point_estimate <- replicability(dt, unit, measurement, level)
+
   De <- point_estimate$De # nolint
   N <- point_estimate$n # nolint
   N0 <- point_estimate$by_unit[, sum(.5 * (mu - 1) * mu)] # nolint

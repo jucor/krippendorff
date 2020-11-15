@@ -3,8 +3,8 @@ library(data.table)
 context("Nominal data")
 
 
-test_that("K-alpha on partial nominal data.table", {
-  results <- kalpha(
+test_that("Replicability on partial nominal data.table", {
+  results <- replicability(
     dt = mwebreliability5,
     unit = "unit",
     measurement = "measurement",
@@ -17,10 +17,10 @@ test_that("K-alpha on partial nominal data.table", {
 })
 
 
-test_that("K-alpha.df on partial nominal tibble", {
+test_that("Replicability.df on partial nominal tibble", {
   df <- setDF(copy(mwebreliability5))
 
-  results <- kalpha(
+  results <- replicability(
     dt = df,
     unit = "unit",
     measurement = "measurement",

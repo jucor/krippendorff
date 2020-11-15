@@ -3,8 +3,8 @@ library(data.table)
 context("Binary data")
 
 
-test_that("K-alpha on full binary data.table", {
-  expect_equal(kalpha(
+test_that("Replicability on full binary data.table", {
+  expect_equal(replicability(
     dt = news_presence,
     unit = "article",
     measurement = "presence",
@@ -16,10 +16,10 @@ test_that("K-alpha on full binary data.table", {
 })
 
 
-test_that("K-alpha on full binary tibble", {
+test_that("Replicability on full binary tibble", {
   df <- setDF(copy(news_presence))
 
-  expect_equal(kalpha(
+  expect_equal(replicability(
     dt = df,
     unit = "article",
     measurement = "presence",
