@@ -4,7 +4,7 @@
 \alias{replicability}
 \title{Compute Krippendorff's Replicability (formerly Krippendorff Alpha)}
 \usage{
-replicability(dt, unit, measurement, level)
+replicability(dt, unit, measurement, level = "nominal")
 }
 \arguments{
 \item{dt}{`data.table` containing the reliability data in long format.}
@@ -14,7 +14,8 @@ replicability(dt, unit, measurement, level)
 \item{measurement}{Name of the column containing the measurements, one per
 judge}
 
-\item{level}{c('binary', 'nominal'): type of oberverment data.}
+\item{level}{c('binary', 'nominal'): type of oberverment data, default to
+'nominal'}
 }
 \value{
 \item{alpha}{Krippendorff's Alpha reliability index}

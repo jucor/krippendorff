@@ -37,7 +37,8 @@ to_long_form <- function(dt, unit, observers, measurements) {
 #' @param unit Name of the column containing the unit ID
 #' @param measurement Name of the column containing the measurements, one per
 #'   judge
-#' @param level c('binary', 'nominal'): type of oberverment data.
+#' @param level c('binary', 'nominal'): type of oberverment data, default to
+#'   'nominal'
 #' @return
 #' \item{alpha}{Krippendorff's Alpha reliability index}
 #' \item{De}{Expected disagreement}
@@ -49,7 +50,7 @@ to_long_form <- function(dt, unit, observers, measurements) {
 #' @export
 #' @import data.table
 # TODO(jucor): add default 'nominal'
-replicability <- function(dt, unit, measurement, level) {
+replicability <- function(dt, unit, measurement, level = "nominal") {
   . <- mu <- N <- NULL # due to NSE notes in R CMD check # nolint
 
   count <- switch(level,
