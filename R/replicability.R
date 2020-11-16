@@ -60,6 +60,7 @@ replicability <- function(dt, unit, measurement, level = "nominal") {
     # for intervals.
   }
 
+  # Support tidyverse data.frames and tibbles by converting to data.table.
   if (!is.data.table(dt)) {
     dt <- as.data.table(dt)
   }
