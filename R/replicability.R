@@ -33,12 +33,29 @@ to_long_form <- function(dt, unit, observers, measurements) {
 #' If a tibble or a non-data.table dataframe is passed as input, this function
 #' will still work! It will silently create a data.table copy of your dataframe
 #' (or tibble).
-#' TODO(jucor): cite properly
+#'
+#' There are two possible types of input:
+#' - The "extended" form: a tidy table of individual votes, where each row is
+#' one measurement of one unit by one coder. This is typically the raw data
+
+#' coming out of an annotation database. The user just needs to specify which
+#' column contains the unit ID, and which column contains the measurement. Each
+#' measurement takes one of the possible values of the nominal variable.
+#' - The "aggregated" form: a tidy table of counts of votes per unit, where each
+#' row is the number of measurements for one unit for one nominal value. The
+#' user needs to specify which column contains the unit ID, which column
+#' contains the measurement value (amongst one of the possible values of
+#' the nominal variable), and which column contains the count of coders
+#' having assigned this measurement to this unit.
+#'
+#' WARNING: this function *will* change the data.table in `dt`. If you want to
+#' avoid this, better calling it on a copy of the table.
 #'
 #' @param dt `data.table` containing the reliability data in long format.
-#' @param unit Name of the column containing the unit ID
-#' @param measurement Name of the column containing the measurements, one per
-#'   judge
+#' @param unit_from Name of the column containing the unit ID
+#' @param measurement_from Name of the column containing the measurements
+#' @param count_from (Optional) Name of the column containing the counts, *if*
+#'   the data is in the "aggregated" form described above.
 #' @return
 #' \item{alpha}{Krippendorff's Alpha reliability index}
 #' \item{De}{Expected disagreement}
@@ -50,7 +67,7 @@ to_long_form <- function(dt, unit, observers, measurements) {
 #' @export
 #' @import data.table
 # TODO(jucor): add default 'nominal'
-replicability <- function(dt, unit, measurement) {
+replicability <- function(dt, unit_from, measurement_from, count_from = NULL) {
   mu <- N <- NULL # due to NSE notes in R CMD check # nolint
 
   # TODO(julien): add support for arbitrary difference functions beyond
@@ -62,35 +79,40 @@ replicability <- function(dt, unit, measurement) {
     dt <- as.data.table(dt)
   }
 
-  data.table::setkeyv(dt, c(unit, measurement))
+  data.table::setkeyv(dt, c(unit_from, measurement_from))
 
   # Count number of coders for each measurement's possible value for each unit.
-  values_by_unit <- dt[,
-    .N,
-    by = c(unit, measurement)
-  ]
+  if (!is.null(count_from)) {
+    counts_by_unit <- dt
+    setnames(counts_by_unit, count_from, "N")
+  } else {
+    counts_by_unit <- dt[,
+      .N,
+      by = c(unit_from, measurement_from)
+    ]
+  }
 
   # Compute disagreements and counts per unit.
-  by_unit <- values_by_unit[,
+  by_unit <- counts_by_unit[,
     .(
       Do = count_disagreements(N),
       mu = sum(N)
     ),
-    by = unit
+    by = unit_from
   ]
 
   # Compute one mu value per unit and recycle it for each measurement within the
   # unit. This recycling is why we create a variable by reference.
-  values_by_unit[,
+  counts_by_unit[,
     mu := sum(N),
-    by = unit
+    by = unit_from
   ]
 
   # Sum counts over all units for each measurement, omitting units with a
   # single value (for which there cannot thus be any disagreement).
-  nc <- values_by_unit[mu > 1,
+  nc <- counts_by_unit[mu > 1,
     .(N = sum(N)),
-    by = measurement
+    by = measurement_from
   ]
 
   n <- nc[, sum(N)]
