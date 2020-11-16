@@ -51,14 +51,13 @@ to_long_form <- function(dt, unit, observers, measurements) {
 #' @import data.table
 # TODO(jucor): add default 'nominal'
 replicability <- function(dt, unit, measurement, level = "nominal") {
-  . <- mu <- N <- NULL # due to NSE notes in R CMD check # nolint
+  mu <- N <- NULL # due to NSE notes in R CMD check # nolint
 
-  count <- switch(level,
-    binary = count_disagreements,
-    nominal = count_disagreements
-  )
-  if (is.null(count)) {
-    stop("Level %s unknown, must be one of 'binary', 'nominal'")
+  if (!level %in% c("binary", "nominal")) {
+    stop("Level type %s unknown, must be one of 'binary', 'nominal'")
+    # TODO(julien): add support for arbitrary difference functions beyond
+    # counting nominal variables. Would allow reliability for ordinal and
+    # for intervals.
   }
 
   if (!is.data.table(dt)) {
