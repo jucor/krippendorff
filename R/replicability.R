@@ -67,26 +67,31 @@ replicability <- function(dt, unit, measurement, level = "nominal") {
 
   data.table::setkeyv(dt, c(unit, measurement))
 
-  # Count number of coders for each measurement's possible value for each unit
-  values_by_unit <- dt[, .N, by = c(unit, measurement)]
-
-  # Compute one mu value per unit.
-  by_unit <- values_by_unit[, .(
-    Do = count_disagreements(.SD$N),
-    mu = sum(.SD$N)
-  ),
-  by = unit
+  # Count number of coders for each measurement's possible value for each unit.
+  values_by_unit <- dt[,
+    .N,
+    by = c(unit, measurement)
   ]
 
-  # Compute one mu value per unit and repeat it for each measurement within the
-  # unit
+  # Compute one mu value per unit.
+  by_unit <- values_by_unit[,
+    .(
+      Do = count_disagreements(N),
+      mu = sum(N)
+    ),
+    by = unit
+  ]
+
+  # Compute one mu value per unit and recycle it for each measurement within the
+  # unit. This recycling is why we create a variable by reference.
   values_by_unit[,
     mu := sum(N),
     by = unit
   ]
 
-  # Omit all units with a single value
-  nc <- values_by_unit[mu >= 2,
+  # Sum counts over all units for each measurement, omitting units with a
+  # single value (for which there cannot thus be any disagreement).
+  nc <- values_by_unit[mu > 1,
     .(N = sum(N)),
     by = measurement
   ]
