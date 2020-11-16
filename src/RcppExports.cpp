@@ -18,21 +18,21 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// count_nominal
-double count_nominal(NumericVector n);
-RcppExport SEXP _krippendorff_count_nominal(SEXP nSEXP) {
+// count_disagreements
+double count_disagreements(NumericVector counts);
+RcppExport SEXP _krippendorff_count_disagreements(SEXP countsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type n(nSEXP);
-    rcpp_result_gen = Rcpp::wrap(count_nominal(n));
+    Rcpp::traits::input_parameter< NumericVector >::type counts(countsSEXP);
+    rcpp_result_gen = Rcpp::wrap(count_disagreements(counts));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
     {"_krippendorff_bootstrap_within_unit", (DL_FUNC) &_krippendorff_bootstrap_within_unit, 2},
-    {"_krippendorff_count_nominal", (DL_FUNC) &_krippendorff_count_nominal, 1},
+    {"_krippendorff_count_disagreements", (DL_FUNC) &_krippendorff_count_disagreements, 1},
     {NULL, NULL, 0}
 };
 

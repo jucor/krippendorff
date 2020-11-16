@@ -5,6 +5,6 @@ bootstrap_within_unit <- function(deviations, nboot) {
   .Call(`_krippendorff_bootstrap_within_unit`, deviations, nboot)
 }
 
-count_nominal <- function(n) {
-  .Call(`_krippendorff_count_nominal`, n)
+count_disagreements <- function(counts) {
+  .Call(`_krippendorff_count_disagreements`, counts)
 }

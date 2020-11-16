@@ -54,8 +54,8 @@ replicability <- function(dt, unit, measurement, level = "nominal") {
   . <- mu <- N <- NULL # due to NSE notes in R CMD check # nolint
 
   count <- switch(level,
-    binary = count_nominal,
-    nominal = count_nominal
+    binary = count_disagreements,
+    nominal = count_disagreements
   )
   if (is.null(count)) {
     stop("Level %s unknown, must be one of 'binary', 'nominal'")
@@ -67,11 +67,12 @@ replicability <- function(dt, unit, measurement, level = "nominal") {
 
   data.table::setkeyv(dt, c(unit, measurement))
 
+  # Count number of coders for each measurement's possible value for each unit
   values_by_unit <- dt[, .N, by = c(unit, measurement)]
 
   # Compute one mu value per unit.
   by_unit <- values_by_unit[, .(
-    Do = count_nominal(.SD$N),
+    Do = count_disagreements(.SD$N),
     mu = sum(.SD$N)
   ),
   by = unit
@@ -91,7 +92,7 @@ replicability <- function(dt, unit, measurement, level = "nominal") {
   ]
 
   n <- nc[, sum(N)]
-  De <- count_nominal(nc[, N]) / n # nolint
+  De <- count_disagreements(nc[, N]) / n # nolint
   Do <- sum(by_unit$Do) / n # nolint
 
   alpha <- 1 - Do / De
