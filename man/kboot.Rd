@@ -19,8 +19,6 @@ judge}
 \item{measurement}{Name of the column containing the measurements, one per
 judge}
 
-\item{level}{c('binary', 'nominal'): type of oberverment data.}
-
 \item{nboot}{number of samples alpha to bootstrap}
 }
 \value{

@@ -1,17 +1,16 @@
 library(data.table)
 
-context("Boostrap")
+context("Bootstrap")
 
 test_that("Bootstrap on nominal data", {
   skip("TODO(jucor): implement for more than 2 observers")
   nboot <- 1000
   mwebreliability5
   result <- kboot(
-    DT = mwebreliability5, # ,news_tone,
+    dt = mwebreliability5, # ,news_tone,
     unit = "unit",
     measurement = "measurement",
     observer = "observer",
-    level = "nominal",
     nboot = nboot
   )
   expect_equal(length(result$samples), nboot)
@@ -28,11 +27,10 @@ test_that("Bootstrap with non-standard names", {
   nboot <- 1000
   colnames(mwebreliability5) <- c("myunit", "myobs", "mymeasure")
   result <- kboot(
-    DT = mwebreliability5, # ,news_tone,
+    dt = mwebreliability5, # ,news_tone,
     unit = "myunit",
     measurement = "mymeasure",
     observer = "myobs",
-    level = "nominal",
     nboot = nboot
   )
   expect_equal(length(result$samples), nboot)
@@ -56,7 +54,6 @@ test_that("Bootstrap with only two observers", {
     unit = "unit",
     measurement = "measurement",
     observer = "observer",
-    level = "nominal",
     nboot = nboot
   )
   expect_equal(length(result$samples), nboot)

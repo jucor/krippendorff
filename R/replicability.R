@@ -28,6 +28,8 @@ to_long_form <- function(dt, unit, observers, measurements) {
 #' It is designed to be space efficient for sparse oberverments, and as thus
 #' does not take as input a reliability matrix, but a long-format data.table
 #'
+#' Supports nominal and binary data.
+#'
 #' If a tibble or a non-data.table dataframe is passed as input, this function
 #' will still work! It will silently create a data.table copy of your dataframe
 #' (or tibble).
@@ -37,8 +39,6 @@ to_long_form <- function(dt, unit, observers, measurements) {
 #' @param unit Name of the column containing the unit ID
 #' @param measurement Name of the column containing the measurements, one per
 #'   judge
-#' @param level c('binary', 'nominal'): type of oberverment data, default to
-#'   'nominal'
 #' @return
 #' \item{alpha}{Krippendorff's Alpha reliability index}
 #' \item{De}{Expected disagreement}
@@ -50,15 +50,12 @@ to_long_form <- function(dt, unit, observers, measurements) {
 #' @export
 #' @import data.table
 # TODO(jucor): add default 'nominal'
-replicability <- function(dt, unit, measurement, level = "nominal") {
+replicability <- function(dt, unit, measurement) {
   mu <- N <- NULL # due to NSE notes in R CMD check # nolint
 
-  if (!level %in% c("binary", "nominal")) {
-    stop("Level type %s unknown, must be one of 'binary', 'nominal'")
-    # TODO(julien): add support for arbitrary difference functions beyond
-    # counting nominal variables. Would allow reliability for ordinal and
-    # for intervals.
-  }
+  # TODO(julien): add support for arbitrary difference functions beyond
+  # counting nominal variables. Would allow reliability for ordinal and
+  # for intervals.
 
   # Support tidyverse data.frames and tibbles by converting to data.table.
   if (!is.data.table(dt)) {
@@ -73,7 +70,7 @@ replicability <- function(dt, unit, measurement, level = "nominal") {
     by = c(unit, measurement)
   ]
 
-  # Compute one mu value per unit.
+  # Compute disagreements and counts per unit.
   by_unit <- values_by_unit[,
     .(
       Do = count_disagreements(N),
@@ -120,7 +117,6 @@ replicability <- function(dt, unit, measurement, level = "nominal") {
 #'   judge
 #' @param measurement Name of the column containing the measurements, one per
 #'   judge
-#' @param level c('binary', 'nominal'): type of oberverment data.
 #' @param nboot number of samples alpha to bootstrap
 #' @return \item{samples}{Vector of nboot sampled alphas}
 #' \item{ll95}{Lower limit of 95\% CI interval}
@@ -131,12 +127,8 @@ replicability <- function(dt, unit, measurement, level = "nominal") {
 #' @importFrom stats ecdf quantile
 #' @export
 kboot <- function(dt, unit, observer, measurement, level, nboot) {
-  . <- mu <- o1 <- o2 <- delta <- NULL # due to NSE notes in R CMD check
+  mu <- o1 <- o2 <- delta <- NULL # due to NSE notes in R CMD check
   m1 <- m2 <- e <- deviation <- alpha <- NULL # due to NSE notes in R CMD check
-
-  if (!(level %in% c("binary", "nominal"))) {
-    stop("Boostrap only implemented for binary and nominal data")
-  }
 
   if (dt[, nlevels(observer)] != 2) {
     stop("Bootstrap currently only implemented for exactly 2 observers")
@@ -147,7 +139,7 @@ kboot <- function(dt, unit, observer, measurement, level, nboot) {
   }
 
   # compute expected disagreement from the main alpha
-  point_estimate <- replicability(dt, unit, measurement, level)
+  point_estimate <- replicability(dt, unit, measurement)
 
   De <- point_estimate$De # nolint
   N <- point_estimate$n # nolint

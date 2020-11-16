@@ -7,8 +7,7 @@ test_that("Replicability on partial nominal data.table", {
   results <- replicability(
     dt = mwebreliability5,
     unit = "unit",
-    measurement = "measurement",
-    level = "nominal"
+    measurement = "measurement"
   )
   expect_equal(results$alpha,
     0.743,
@@ -23,8 +22,7 @@ test_that("Replicability.df on partial nominal tibble", {
   results <- replicability(
     dt = df,
     unit = "unit",
-    measurement = "measurement",
-    level = "nominal"
+    measurement = "measurement"
   )
   expect_equal(results$alpha,
     0.743,

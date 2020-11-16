@@ -4,7 +4,7 @@
 \alias{replicability}
 \title{Compute Krippendorff's Replicability (formerly Krippendorff Alpha)}
 \usage{
-replicability(dt, unit, measurement, level = "nominal")
+replicability(dt, unit, measurement)
 }
 \arguments{
 \item{dt}{`data.table` containing the reliability data in long format.}
@@ -13,9 +13,6 @@ replicability(dt, unit, measurement, level = "nominal")
 
 \item{measurement}{Name of the column containing the measurements, one per
 judge}
-
-\item{level}{c('binary', 'nominal'): type of oberverment data, default to
-'nominal'}
 }
 \value{
 \item{alpha}{Krippendorff's Alpha reliability index}
@@ -33,6 +30,8 @@ https://repository.upenn.edu/cgi/viewcontent.cgi?article=1043&context=asc_papers
 \details{
 It is designed to be space efficient for sparse oberverments, and as thus
 does not take as input a reliability matrix, but a long-format data.table
+
+Supports nominal and binary data.
 
 If a tibble or a non-data.table dataframe is passed as input, this function
 will still work! It will silently create a data.table copy of your dataframe

@@ -7,8 +7,7 @@ test_that("Replicability on full binary data.table", {
   expect_equal(replicability(
     dt = news_presence,
     unit = "article",
-    measurement = "presence",
-    level = "binary"
+    measurement = "presence"
   )$alpha,
   .0952,
   tolerance = 1e-3
@@ -22,8 +21,7 @@ test_that("Replicability on full binary tibble", {
   expect_equal(replicability(
     dt = df,
     unit = "article",
-    measurement = "presence",
-    level = "binary"
+    measurement = "presence"
   )$alpha,
   .0952,
   tolerance = 1e-3
