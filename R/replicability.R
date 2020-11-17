@@ -66,7 +66,6 @@ to_long_form <- function(dt, unit, observers, measurements) {
 #' \item{Do}{Observed disagreement within this unit}
 #' @export
 #' @import data.table
-# TODO(jucor): add default 'nominal'
 replicability <- function(dt, unit_from, measurement_from, count_from = NULL) {
   mu <- N <- NULL # due to NSE notes in R CMD check # nolint
 
