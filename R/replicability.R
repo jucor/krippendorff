@@ -147,7 +147,7 @@ replicability <- function(dt, unit_from, measurement_from, count_from = NULL) {
 #' @import data.table
 #' @importFrom stats ecdf quantile
 #' @export
-kboot <- function(dt, unit, observer, measurement, level, nboot) {
+kboot <- function(dt, unit, observer, measurement, nboot) {
   mu <- o1 <- o2 <- delta <- NULL # due to NSE notes in R CMD check
   m1 <- m2 <- e <- deviation <- alpha <- NULL # due to NSE notes in R CMD check
 
