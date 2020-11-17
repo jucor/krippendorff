@@ -1,0 +1,80 @@
+library(data.table)
+
+context("Quadrilogy on aggregated data")
+
+# Reproduce Table 6 of Krippendorff (2020) quadrilogy draft
+generate_example <- function() {
+  coders <- matrix(c(1, 9, 0, 5, 8, 8, 0, 12, 6, 1),
+    nrow = 2, ncol = 5, byrow = TRUE,
+    dimnames = list(0:1, 1:5)
+  )
+
+  coders <- as.data.table(coders,
+    keep.rownames = "value",
+    value.name = "count"
+  )
+  coders <- data.table::melt(coders,
+    id.vars = "value",
+    variable.name = "unit",
+    value.name = "count"
+  )
+
+
+  standard <- matrix(c(0, 1, 1, 0, 0, 2, 0, 1, 2, 0),
+    nrow = 2, ncol = 5, byrow = TRUE,
+    dimnames = list(0:1, 1:5)
+  )
+  standard <- as.data.table(standard,
+    keep.rownames = "value",
+    value.name = "count"
+  )
+  standard <- data.table::melt(standard,
+    id.vars = "value",
+    variable.name = "unit",
+    value.name = "count"
+  )
+
+  return(list(standard = standard, coders = coders))
+}
+
+
+test_that("Replicability on aggregated binary data.table", {
+  dt <- generate_example()$coders
+
+  expect_equal(
+    replicability(
+      copy(dt[as.numeric(unit) %in% c(2, 3)]),
+      "unit", "value", "count"
+    )$alpha,
+    1,
+    tolerance = 1e-6
+  )
+
+  expect_equal(
+    replicability(
+      copy(dt[as.numeric(unit) %in% c(2, 3, 5)]),
+      "unit", "value", "count"
+    )$alpha,
+    0.8687782805
+  )
+
+  expect_equal(
+    replicability(
+      copy(dt[as.numeric(unit) %in% c(1, 2, 3, 5)]),
+      "unit", "value", "count"
+    )$alpha,
+    0.7989417989
+  )
+
+
+  r <- replicability(
+    dt = copy(dt),
+    unit_from = "unit",
+    measurement_from = "value",
+    count_from = "count"
+  )
+  expect_equal(
+    r$alpha,
+    0.60547504030
+  )
+})
