@@ -6,9 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Bootstrap replicability K times
-This function implements the bootstrap of Krippendorff's Alpha as per
-http://web.asc.upenn.edu/usr/krippendorff/boot.c-Alpha.pdf — kboot • krippendorff</title>
+<title>Compute Krippendorff's Accuracy — accuracy • krippendorff</title>
 
 
 <!-- jquery -->
@@ -41,12 +39,9 @@ http://web.asc.upenn.edu/usr/krippendorff/boot.c-Alpha.pdf — kboot • krippen
 
 
 
-<meta property="og:title" content="Bootstrap replicability K times
-This function implements the bootstrap of Krippendorff's Alpha as per
-http://web.asc.upenn.edu/usr/krippendorff/boot.c-Alpha.pdf — kboot" />
-<meta property="og:description" content="It is designed to be space efficient for sparse oberverments, and as thus
-does not take as input a reliability matrix, but a long-format data.table
-TODO(jucor): cite properly" />
+<meta property="og:title" content="Compute Krippendorff's Accuracy — accuracy" />
+<meta property="og:description" content="Similar input and warnings as replicability.
+TODO(julien): figure out how to merge both functions in the same help page." />
 
 
 
@@ -114,45 +109,53 @@ TODO(jucor): cite properly" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Bootstrap replicability K times
-This function implements the bootstrap of Krippendorff's Alpha as per
-http://web.asc.upenn.edu/usr/krippendorff/boot.c-Alpha.pdf</h1>
+    <h1>Compute Krippendorff's Accuracy</h1>
     <small class="dont-index">Source: <a href='http://github.com/jucor/krippendorff/blob/master/R/replicability.R'><code>R/replicability.R</code></a></small>
-    <div class="hidden name"><code>kboot.Rd</code></div>
+    <div class="hidden name"><code>accuracy.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>It is designed to be space efficient for sparse oberverments, and as thus
-does not take as input a reliability matrix, but a long-format data.table
-TODO(jucor): cite properly</p>
+    <p>Similar input and warnings as replicability.
+TODO(julien): figure out how to merge both functions in the same help page.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>kboot</span><span class='op'>(</span><span class='va'>dt</span>, <span class='va'>unit</span>, <span class='va'>observer</span>, <span class='va'>measurement</span>, <span class='va'>nboot</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>accuracy</span><span class='op'>(</span>
+  <span class='va'>coders</span>,
+  <span class='va'>standard</span>,
+  unit_from <span class='op'>=</span> <span class='st'>"unit"</span>,
+  measurement_from <span class='op'>=</span> <span class='st'>"measurement"</span>,
+  frequency_from <span class='op'>=</span> <span class='cn'>NULL</span>,
+  return_by_unit <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dt</th>
-      <td><p>`data.table` containing the reliability data in long format</p></td>
+      <th>coders</th>
+      <td><p>`data.table` containing the standards.</p></td>
     </tr>
     <tr>
-      <th>unit</th>
+      <th>standard</th>
+      <td><p>`data.table` containing the coders.</p></td>
+    </tr>
+    <tr>
+      <th>unit_from</th>
       <td><p>Name of the column containing the unit ID</p></td>
     </tr>
     <tr>
-      <th>observer</th>
-      <td><p>Name of the column containing the observer name, one per
-judge</p></td>
+      <th>measurement_from</th>
+      <td><p>Name of the column containing the measurements</p></td>
     </tr>
     <tr>
-      <th>measurement</th>
-      <td><p>Name of the column containing the measurements, one per
-judge</p></td>
+      <th>frequency_from</th>
+      <td><p>(Optional) Name of the column containing the
+frequencies, *if* the data is in the "aggregated" form described above.</p></td>
     </tr>
     <tr>
-      <th>nboot</th>
-      <td><p>number of samples alpha to bootstrap</p></td>
+      <th>return_by_unit</th>
+      <td><p>(default FALSE) If TRUE, return a data.table of
+per-unit contributions.</p></td>
     </tr>
     </table>
 
@@ -160,11 +163,10 @@ judge</p></td>
 
     
 
-<dt>samples</dt><dd><p>Vector of nboot sampled alphas</p></dd>
-<dt>ll95</dt><dd><p>Lower limit of 95% CI interval</p></dd>
-<dt>ul95</dt><dd><p>Upper limit of 95% CI interval</p></dd>
-<dt>q.alphamin</dt><dd><p>Probability of failure to achieve an alpha of at least
-alphamin, dataframe with alphamin and q</p></dd>
+<dt>accuracy</dt><dd><p>Krippendorff's Alpha accuracy index</p></dd>
+<dt>De</dt><dd><p>Expected disagreement</p></dd>
+<dt>Do</dt><dd><p>Overall observed disagreement accross all units</p></dd>
+<dt>by_unit</dt><dd><p>(Only if return_by_unit = TRUE) Per-unit contributions</p></dd>
 
 
   </div>
