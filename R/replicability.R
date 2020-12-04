@@ -87,7 +87,12 @@ accuracy <- function(coders,
       new = c("unit", "measurement")
     )
 
-    setnames(dt, old = frequency_from, new = "N")
+    if (!is.null(frequency_from)) {
+      setnames(dt,
+        old = frequency_from,
+        new = "N"
+      )
+    }
   }
   normalize_names(coders)
   normalize_names(standard)
@@ -247,9 +252,10 @@ accuracy <- function(coders,
 #' @export
 #' @import data.table
 replicability <- function(coders,
-                          unit_from,
-                          measurement_from,
-                          frequency_from = NULL) {
+                          unit_from = "unit",
+                          measurement_from = "measurement",
+                          frequency_from = NULL,
+                          return_by_unit = FALSE) {
   mu <- N <- NULL # due to NSE notes in R CMD check # nolint
 
   # TODO(julien): add support for arbitrary difference functions beyond
@@ -294,7 +300,12 @@ replicability <- function(coders,
 
   alpha <- 1 - Do / De
 
-  list(alpha = alpha, Do = Do, De = De, n = n, by_unit = by_unit)
+  out <- list(alpha = alpha, Do = Do, De = De, n = n)
+  if (return_by_unit) {
+    out$by_unit <- by_unit
+  }
+
+  return(out)
 }
 
 

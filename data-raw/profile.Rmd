@@ -1,0 +1,62 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+library(data.table)
+
+
+generate_large_example <- function(
+                                   n_measurements = 7e6,
+                                   n_units = 2.6e6,
+                                   n_standard = 200,
+                                   n_coders = 3000) {
+  # Simplify: all answers are a Bernoulli p. Only size matters.
+  p <- 0.3
+
+  # Crude simulation of a real study in long format.
+  # Note: with this we might have coders coding the same unit twice.
+  # And all votes are i.i.d., independent of the unit, so we
+  # will have pathological alphas, which is fine for a profiling test.
+  coders <- data.table(
+    unit = ceiling(runif(n_measurements, min = 0, max = n_units)),
+    measurement = rbinom(n_measurements, 1, p),
+    coder = ceiling(runif(n_measurements, 0, n_coders))
+  )
+
+  standard <- data.table(
+    unit = ceiling(runif(n_standard, min = 0, max = n_units)),
+    measurement = rbinom(n_standard, 1, p),
+    coder = list(1, 2)
+  )
+
+  return(list(coders = coders, standard = standard))
+}
+```
+
+```{r}
+
+library(microbenchmark)
+example <- generate_large_example(5e4)
+
+# We need to check that complexity is linear in number of measurements
+# and more or less independent of number of units
+rep <- microbenchmark(replicability(copy(example$coders)))
+ggplot2::autoplot(rep)
+```
+```{r}
+library(GuessCompx)
+example <- generate_large_example(5e5)
+
+f <- function(df) {
+  accuracy(
+    copy(df),
+    copy(example$standard)
+  )
+}
+
+CompEst(example$coders,
+  f,
+  plot.result = TRUE
+)
+```
