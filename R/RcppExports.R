@@ -8,3 +8,7 @@ bootstrap_within_unit <- function(deviations, nboot) {
 count_disagreements <- function(counts) {
   .Call(`_krippendorff_count_disagreements`, counts)
 }
+
+mutual_disagreements <- function(standard, coders) {
+  .Call(`_krippendorff_mutual_disagreements`, standard, coders)
+}

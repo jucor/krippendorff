@@ -3,12 +3,12 @@ library(data.table)
 context("Quadrilogy on aggregated data")
 
 # Reproduce Table 6 of Krippendorff (2020) quadrilogy draft
+# TODO(julien): extract into a dataset for the package.
 generate_example <- function() {
   coders <- matrix(c(1, 9, 0, 5, 8, 8, 0, 12, 6, 1),
     nrow = 2, ncol = 5, byrow = TRUE,
     dimnames = list(0:1, 1:5)
   )
-
   coders <- as.data.table(coders,
     keep.rownames = "value",
     value.name = "count"
@@ -68,13 +68,66 @@ test_that("Replicability on aggregated binary data.table", {
 
 
   r <- replicability(
-    dt = copy(dt),
+    coders = copy(dt),
     unit_from = "unit",
     measurement_from = "value",
-    count_from = "count"
+    frequency_from = "count"
   )
   expect_equal(
     r$alpha,
     0.60547504030
+  )
+})
+
+
+test_that("Accuracy on aggregated binary data.table", {
+  example <- generate_example()
+  acc <- accuracy(
+    coders = example$coders,
+    standard = example$standard,
+    unit_from = "unit",
+    measurement_from = "value",
+    frequency_from = "count"
+  )
+  expect_equal(
+    acc$accuracy,
+    0.369,
+    tolerance = 1e-3
+  )
+})
+
+
+test_that("Surrogacy on aggregated binary data.table", {
+  example <- generate_example()
+  # TODO()
+  surr <- surrogacy(
+    coders = copy(example$coders),
+    standard = copy(example$standard),
+    unit_from = "unit",
+    measurement_from = "value",
+    frequency_from = "count",
+    return_by_unit = TRUE
+  )
+  expect_equal(
+    surr$surrogacy,
+    0.656,
+    tolerance = 1e-3
+  )
+})
+
+
+test_that("Decisiveness on aggregated binary data.table", {
+  example <- generate_example()
+  dec <- decisiveness(
+    coders = example$coders,
+    standard = example$standard,
+    unit_from = "unit",
+    measurement_from = "value",
+    frequency_from = "count"
+  )
+  expect_equal(
+    dec$decisiveness,
+    0.714,
+    tolerance = 1e-3
   )
 })

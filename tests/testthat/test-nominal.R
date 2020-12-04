@@ -1,11 +1,11 @@
 library(data.table)
 
-context("Nominal data")
+context("Replicability on nominal data")
 
 
 test_that("Replicability on partial nominal data.table", {
   results <- replicability(
-    dt = mwebreliability5,
+    coders = mwebreliability5,
     unit_from = "unit",
     measurement_from = "measurement"
   )
@@ -16,11 +16,11 @@ test_that("Replicability on partial nominal data.table", {
 })
 
 
-test_that("Replicability.df on partial nominal tibble", {
+test_that("Replicability on partial nominal tibble", {
   df <- setDF(copy(mwebreliability5))
 
   results <- replicability(
-    dt = df,
+    coders = df,
     unit_from = "unit",
     measurement_from = "measurement"
   )

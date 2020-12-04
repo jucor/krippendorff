@@ -20,6 +20,186 @@ to_long_form <- function(dt, unit, observers, measurements) {
     variable.name = "observer"
   )
 }
+
+# Support tidyverse data.frames and tibbles by converting to data.table
+# and add the proper keys for efficiency.
+check_and_set_keys <- function(dt, unit_from, measurement_from) {
+  if (!is.data.table(dt)) {
+    dt <- as.data.table(dt)
+  }
+  data.table::setkeyv(dt, c(unit_from, measurement_from))
+  return(dt)
+}
+
+
+# Compute reliability matrix, i.e.
+# frequencies of coders for each measurement's possible value for each unit
+# in the column "N"
+compute_frequencies <- function(dt,
+                                unit_from,
+                                measurement_from,
+                                frequency_from) {
+  # If frequencies already provided, no work to do, just a name change
+  if (!is.null(frequency_from)) {
+    frequency_by_unit <- dt
+    setnames(frequency_by_unit, frequency_from, "N")
+  } else {
+    frequency_by_unit <- dt[,
+      .N,
+      by = c(unit_from, measurement_from)
+    ]
+  }
+  return(frequency_by_unit)
+}
+
+
+#' Compute Krippendorff's Accuracy
+#'
+#' Similar input and warnings as \see{replicability}.
+#' TODO(julien): figure out how to merge both functions in the same help page.
+#'
+#' @param coders `data.table` containing the standards.
+#' @param standard `data.table` containing the coders.
+#' @param unit_from Name of the column containing the unit ID
+#' @param measurement_from Name of the column containing the measurements
+#' @param frequency_from (Optional) Name of the column containing the
+#'   frequencies, *if* the data is in the "aggregated" form described above.
+#' @param return_by_unit (default FALSE) If TRUE, return a data.table of
+#' per-unit contributions.
+#' @return
+#' \item{accuracy}{Krippendorff's Alpha accuracy index}
+#' \item{De}{Expected disagreement}
+#' \item{Do}{Overall observed disagreement accross all units}
+#' \item{by_unit}{(Only if return_by_unit = TRUE) Per-unit contributions}
+#' @export
+#' @import data.table
+accuracy <- function(coders,
+                     standard,
+                     unit_from = "unit",
+                     measurement_from = "measurement",
+                     frequency_from = NULL,
+                     return_by_unit = FALSE) {
+  # Change the names of the columns for readability.
+  # TODO(julien): might rename N to freq
+  normalize_names <- function(dt) {
+    setnames(dt,
+      old = c(unit_from, measurement_from),
+      new = c("unit", "measurement")
+    )
+
+    setnames(dt, old = frequency_from, new = "N")
+  }
+  normalize_names(coders)
+  normalize_names(standard)
+
+  # TODO(julien): remove this ugly hack once check_and_set_keys and
+  # compute_frequencies do not require a field name anymore.
+  if (!is.null(frequency_from)) {
+    frequency_from <- "N"
+  }
+
+  # N <- NULL # due to NSE notes in R CMD check # nolint
+
+  coders <- check_and_set_keys(coders, "unit", "measurement")
+  standard <- check_and_set_keys(standard, "unit", "measurement")
+
+  # TODO(julien): possible improvement, rbind earlier and compute frequencies
+  # grouping by provenance, rather than duplicating calls.
+  coders_freq <- compute_frequencies(
+    coders,
+    "unit",
+    "measurement",
+    frequency_from
+  )
+
+  std_freq <- compute_frequencies(
+    standard,
+    "unit",
+    "measurement",
+    frequency_from
+  )
+
+
+
+  std_freq[, std.sum := sum(N), by = unit]
+  coders_freq[, coders.sum := sum(N), by = unit]
+
+  prefix_with <- function(dt, prefix) {
+    columns <- c("measurement", "N")
+    setnames(dt,
+      old = columns,
+      new = paste0(prefix, ".", columns)
+    )
+  }
+  prefix_with(coders_freq, "coders")
+  prefix_with(std_freq, "std")
+
+
+
+  # NOTE: might be memory-optimized by applying computation on each
+  # unit as we process rather than first computing the cartesian
+  # product on the whole database. TODO(julien)
+  joint <- coders_freq[std_freq, on = "unit", allow.cartesian = TRUE]
+
+  # out_by_unit is an optional way to diagnose what each unit contributes
+  if (return_by_unit) {
+    out_by_unit <- joint[coders.sum > 0 &
+      std.sum > 0,
+    .(x = sum(coders.N * std.N / std.sum)),
+    by = .(
+      unit, std.measurement,
+      coders.measurement
+    )
+    ]
+  }
+
+  out <- joint[coders.sum > 0 &
+    std.sum > 0,
+  .(x = sum(coders.N * std.N / std.sum)),
+  by = .(std.measurement, coders.measurement)
+  ]
+
+  # Take the sum off-diagonal
+  Do <- out[std.measurement != coders.measurement, sum(x)]
+
+  coders_marginal <- out[,
+    .(x.coders = sum(x), unit = "total"),
+    by = .(coders.measurement)
+  ]
+  std_marginal <- out[,
+    .(x.std = sum(x), unit = "total"),
+    by = .(std.measurement)
+  ]
+
+  # TODO(jucor): simplify this using  matrices instead of
+  # this wonky cartesian join on data.tables
+  marginal_joint <- coders_marginal[std_marginal,
+    .(unit,
+      std.measurement,
+      coders.measurement,
+      prodx = x.std * x.coders
+    ),
+    on = "unit",
+    allow.cartesian = TRUE
+  ]
+
+  De <- marginal_joint[std.measurement != coders.measurement, sum(prodx)] / out[, sum(x)]
+
+  accuracy <- 1 - Do / De
+
+  output <- list(
+    accuracy = accuracy,
+    Do = Do,
+    De = De
+  )
+
+  if (return_by_unit) {
+    output$by_unit <- out_by_unit
+  }
+  return(output)
+}
+
+
 #' Compute Krippendorff's Replicability (formerly Krippendorff Alpha)
 #'
 #' This function implements the computation of  Krippendorff's Alpha as per
@@ -41,21 +221,21 @@ to_long_form <- function(dt, unit, observers, measurements) {
 #' coming out of an annotation database. The user just needs to specify which
 #' column contains the unit ID, and which column contains the measurement. Each
 #' measurement takes one of the possible values of the nominal variable.
-#' - The "aggregated" form: a tidy table of counts of votes per unit, where each
-#' row is the number of measurements for one unit for one nominal value. The
-#' user needs to specify which column contains the unit ID, which column
-#' contains the measurement value (amongst one of the possible values of
-#' the nominal variable), and which column contains the count of coders
-#' having assigned this measurement to this unit.
+#' - The "aggregated" form: a tidy table of frequencies of votes per unit, where
+#' each row is the number of measurements for one unit for one nominal value.
+#' The user needs to specify which column contains the unit ID, which column
+#' contains the measurement value (amongst one of the possible values of the
+#' nominal variable), and which column contains the frequency of coders having
+#' assigned this measurement to this unit.
 #'
 #' WARNING: this function *will* change the data.table in `dt`. If you want to
 #' avoid this, better calling it on a copy of the table.
 #'
-#' @param dt `data.table` containing the reliability data in long format.
+#' @param coders `data.table` containing the reliability data in long format.
 #' @param unit_from Name of the column containing the unit ID
 #' @param measurement_from Name of the column containing the measurements
-#' @param count_from (Optional) Name of the column containing the counts, *if*
-#'   the data is in the "aggregated" form described above.
+#' @param frequency_from (Optional) Name of the column containing the
+#' frequencies, *if* the data is in the "aggregated" form described above.
 #' @return
 #' \item{alpha}{Krippendorff's Alpha reliability index}
 #' \item{De}{Expected disagreement}
@@ -66,56 +246,50 @@ to_long_form <- function(dt, unit, observers, measurements) {
 #' \item{Do}{Observed disagreement within this unit}
 #' @export
 #' @import data.table
-replicability <- function(dt, unit_from, measurement_from, count_from = NULL) {
+replicability <- function(coders,
+                          unit_from,
+                          measurement_from,
+                          frequency_from = NULL) {
   mu <- N <- NULL # due to NSE notes in R CMD check # nolint
 
   # TODO(julien): add support for arbitrary difference functions beyond
   # counting nominal variables. Would allow reliability for ordinal and
   # for intervals.
 
-  # Support tidyverse data.frames and tibbles by converting to data.table.
-  if (!is.data.table(dt)) {
-    dt <- as.data.table(dt)
-  }
-
-  data.table::setkeyv(dt, c(unit_from, measurement_from))
-
-  # Count number of coders for each measurement's possible value for each unit.
-  if (!is.null(count_from)) {
-    counts_by_unit <- dt
-    setnames(counts_by_unit, count_from, "N")
-  } else {
-    counts_by_unit <- dt[,
-      .N,
-      by = c(unit_from, measurement_from)
-    ]
-  }
-
-  # Compute disagreements and counts per unit.
-  by_unit <- counts_by_unit[,
-    .(
-      Do = count_disagreements(N),
-      mu = sum(N)
-    ),
-    by = unit_from
-  ]
+  coders <- check_and_set_keys(coders, unit_from, measurement_from)
+  frequency_by_unit <- compute_frequencies(
+    coders,
+    unit_from,
+    measurement_from,
+    frequency_from
+  )
 
   # Compute one mu value per unit and recycle it for each measurement within the
   # unit. This recycling is why we create a variable by reference.
-  counts_by_unit[,
+  frequency_by_unit[,
     mu := sum(N),
     by = unit_from
   ]
 
-  # Sum counts over all units for each measurement, omitting units with a
+
+  # Sum frequencies over all units for each measurement, omitting units with a
   # single value (for which there cannot thus be any disagreement).
-  nc <- counts_by_unit[mu > 1,
+  nc <- frequency_by_unit[mu > 1,
     .(N = sum(N)),
     by = measurement_from
   ]
 
   n <- nc[, sum(N)]
   De <- count_disagreements(nc[, N]) / n # nolint
+
+  # Compute disagreements and frequencies per unit.
+  by_unit <- frequency_by_unit[,
+    .(
+      Do = count_disagreements(N),
+      mu = sum(N)
+    ),
+    by = unit_from
+  ]
   Do <- sum(by_unit$Do) / n # nolint
 
   alpha <- 1 - Do / De

@@ -4,15 +4,17 @@
 \alias{replicability}
 \title{Compute Krippendorff's Replicability (formerly Krippendorff Alpha)}
 \usage{
-replicability(dt, unit, measurement)
+replicability(coders, unit_from, measurement_from, frequency_from = NULL)
 }
 \arguments{
-\item{dt}{`data.table` containing the reliability data in long format.}
+\item{coders}{`data.table` containing the reliability data in long format.}
 
-\item{unit}{Name of the column containing the unit ID}
+\item{unit_from}{Name of the column containing the unit ID}
 
-\item{measurement}{Name of the column containing the measurements, one per
-judge}
+\item{measurement_from}{Name of the column containing the measurements}
+
+\item{frequency_from}{(Optional) Name of the column containing the
+frequencies, *if* the data is in the "aggregated" form described above.}
 }
 \value{
 \item{alpha}{Krippendorff's Alpha reliability index}
@@ -36,5 +38,20 @@ Supports nominal and binary data.
 If a tibble or a non-data.table dataframe is passed as input, this function
 will still work! It will silently create a data.table copy of your dataframe
 (or tibble).
-TODO(jucor): cite properly
+
+There are two possible types of input:
+- The "extended" form: a tidy table of individual votes, where each row is
+one measurement of one unit by one coder. This is typically the raw data
+coming out of an annotation database. The user just needs to specify which
+column contains the unit ID, and which column contains the measurement. Each
+measurement takes one of the possible values of the nominal variable.
+- The "aggregated" form: a tidy table of frequencies of votes per unit, where
+each row is the number of measurements for one unit for one nominal value.
+The user needs to specify which column contains the unit ID, which column
+contains the measurement value (amongst one of the possible values of the
+nominal variable), and which column contains the frequency of coders having
+assigned this measurement to this unit.
+
+WARNING: this function *will* change the data.table in `dt`. If you want to
+avoid this, better calling it on a copy of the table.
 }

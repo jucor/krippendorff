@@ -1,6 +1,6 @@
 Type: Package
 Package: krippendorff
-Title: Fast Krippendorff Alpha Reliability Measure
+Title: "Fast Krippendorff Alpha Reliability Measure"
 Version: 0.1.0
 Authors@R: 
     person(given = "Julien",

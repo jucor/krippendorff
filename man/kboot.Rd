@@ -6,7 +6,7 @@
 This function implements the bootstrap of Krippendorff's Alpha as per
 http://web.asc.upenn.edu/usr/krippendorff/boot.c-Alpha.pdf}
 \usage{
-kboot(dt, unit, observer, measurement, level, nboot)
+kboot(dt, unit, observer, measurement, nboot)
 }
 \arguments{
 \item{dt}{`data.table` containing the reliability data in long format}
