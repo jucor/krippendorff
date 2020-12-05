@@ -1,4 +1,4 @@
-name: "Workflow"
+name: "TODO to Issue"
 on: ["push"]
 jobs:
   build:
@@ -10,4 +10,4 @@ jobs:
         id: "todo"
         with:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          LABEL: TODO(\(\w+\))?
+          LABEL: "TODO(\(julien\))?"
