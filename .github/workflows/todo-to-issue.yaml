@@ -10,4 +10,4 @@ jobs:
         id: "todo"
         with:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          LABEL: "TODO(\(julien\))?"
+          LABEL: 'TODO(\(julien\))?'
