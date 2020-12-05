@@ -55,7 +55,7 @@ compute_frequencies <- function(dt,
 
 #' Compute Krippendorff's Accuracy
 #'
-#' Similar input and warnings as \see{replicability}.
+#' Similar input and warnings as [replicability()].
 #' TODO(julien): figure out how to merge both functions in the same help page.
 #'
 #' @param coders `data.table` containing the standards.
@@ -241,6 +241,7 @@ accuracy <- function(coders,
 #' @param measurement_from Name of the column containing the measurements
 #' @param frequency_from (Optional) Name of the column containing the
 #' frequencies, *if* the data is in the "aggregated" form described above.
+#' @param return_by_unit (default FALSE) If TRUE, return a data.table of
 #' @return
 #' \item{alpha}{Krippendorff's Alpha reliability index}
 #' \item{De}{Expected disagreement}

@@ -35,6 +35,6 @@ per-unit contributions.}
 \item{by_unit}{(Only if return_by_unit = TRUE) Per-unit contributions}
 }
 \description{
-Similar input and warnings as \see{replicability}.
+Similar input and warnings as [replicability()].
 TODO(julien): figure out how to merge both functions in the same help page.
 }

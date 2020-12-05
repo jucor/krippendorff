@@ -21,6 +21,8 @@ replicability(
 
 \item{frequency_from}{(Optional) Name of the column containing the
 frequencies, *if* the data is in the "aggregated" form described above.}
+
+\item{return_by_unit}{(default FALSE) If TRUE, return a data.table of}
 }
 \value{
 \item{alpha}{Krippendorff's Alpha reliability index}
