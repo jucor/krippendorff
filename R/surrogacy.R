@@ -5,7 +5,7 @@ surrogacy <- function(coders,
                       frequency_from = NULL,
                       return_by_unit = FALSE) {
   # Change the names of the columns for readability.
-  # TODO(julien): might rename N to freq
+  # TODO: might rename N to freq
   normalize_names <- function(dt) {
     setnames(dt,
       old = c(unit_from, measurement_from),
@@ -17,7 +17,7 @@ surrogacy <- function(coders,
   normalize_names(coders)
   normalize_names(standard)
 
-  # TODO(julien): remove this ugly hack once check_and_set_keys and
+  # TODO: remove this ugly hack once check_and_set_keys and
   # compute_frequencies do not require a field name anymore.
   if (!is.null(frequency_from)) {
     frequency_from <- "N"
@@ -28,7 +28,7 @@ surrogacy <- function(coders,
   coders <- check_and_set_keys(coders, "unit", "measurement")
   standard <- check_and_set_keys(standard, "unit", "measurement")
 
-  # TODO(julien): possible improvement, rbind earlier and compute frequencies
+  # TODO: possible improvement, rbind earlier and compute frequencies
   # grouping by provenance, rather than duplicating calls.
   coders_freq <- compute_frequencies(
     coders,
@@ -62,7 +62,7 @@ surrogacy <- function(coders,
     by = unit
   ]
 
-  # TODO(julien): write test when there is a tie. The above
+  # TODO: write test when there is a tie. The above
   # coud should give a count of N = 2.
 
   # Compare majorities to standard
