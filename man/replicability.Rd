@@ -4,7 +4,13 @@
 \alias{replicability}
 \title{Compute Krippendorff's Replicability (formerly Krippendorff Alpha)}
 \usage{
-replicability(coders, unit_from, measurement_from, frequency_from = NULL)
+replicability(
+  coders,
+  unit_from = "unit",
+  measurement_from = "measurement",
+  frequency_from = NULL,
+  return_by_unit = FALSE
+)
 }
 \arguments{
 \item{coders}{`data.table` containing the reliability data in long format.}

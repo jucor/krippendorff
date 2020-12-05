@@ -345,7 +345,11 @@ kboot <- function(dt, unit, observer, measurement, nboot) {
   }
 
   # compute expected disagreement from the main alpha
-  point_estimate <- replicability(dt, unit, measurement)
+  point_estimate <- replicability(dt,
+    unit,
+    measurement,
+    return_by_unit = TRUE
+  )
 
   De <- point_estimate$De # nolint
   N <- point_estimate$n # nolint
