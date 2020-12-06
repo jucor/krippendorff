@@ -56,7 +56,7 @@ compute_frequencies <- function(dt,
 #' Compute Krippendorff's Accuracy
 #'
 #' Similar input and warnings as [replicability()].
-#' TODO: figure out how to merge both functions in the same help page.
+#' TODO(julien): figure out how to merge both functions in the same help page.
 #'
 #' @param coders `data.table` containing the standards.
 #' @param standard `data.table` containing the coders.
@@ -80,7 +80,7 @@ accuracy <- function(coders,
                      frequency_from = NULL,
                      return_by_unit = FALSE) {
   # Change the names of the columns for readability.
-  # TODO: might rename N to freq
+  # TODO(julien): might rename N to freq
   normalize_names <- function(dt) {
     setnames(dt,
       old = c(unit_from, measurement_from),
@@ -97,7 +97,7 @@ accuracy <- function(coders,
   normalize_names(coders)
   normalize_names(standard)
 
-  # TODO: remove this ugly hack once check_and_set_keys and
+  # TODO(julien): remove this ugly hack once check_and_set_keys and
   # compute_frequencies do not require a field name anymore.
   if (!is.null(frequency_from)) {
     frequency_from <- "N"
@@ -108,7 +108,7 @@ accuracy <- function(coders,
   coders <- check_and_set_keys(coders, "unit", "measurement")
   standard <- check_and_set_keys(standard, "unit", "measurement")
 
-  # TODO: possible improvement, rbind earlier and compute frequencies
+  # TODO(julien): possible improvement, rbind earlier and compute frequencies
   # grouping by provenance, rather than duplicating calls.
   coders_freq <- compute_frequencies(
     coders,
@@ -143,7 +143,7 @@ accuracy <- function(coders,
 
   # NOTE: might be memory-optimized by applying computation on each
   # unit as we process rather than first computing the cartesian
-  # product on the whole database. TODO
+  # product on the whole database. TODO(julien)
   joint <- coders_freq[std_freq, on = "unit", allow.cartesian = TRUE]
 
   # out_by_unit is an optional way to diagnose what each unit contributes
@@ -259,7 +259,7 @@ replicability <- function(coders,
                           return_by_unit = FALSE) {
   mu <- N <- NULL # due to NSE notes in R CMD check # nolint
 
-  # TODO: add support for arbitrary difference functions beyond
+  # TODO(julien): add support for arbitrary difference functions beyond
   # counting nominal variables. Would allow reliability for ordinal and
   # for intervals.
 
