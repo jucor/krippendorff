@@ -13,7 +13,6 @@ decisiveness <- function(coders,
   )
 
   # Compute majorities of coders per unit, including ties
-  # coders <- example$coders # TODO(remove once teted!!)
   # Two-step way to compute the argmax, as argmax is
   # not yet optimised in data.table
   coders_freq[,
