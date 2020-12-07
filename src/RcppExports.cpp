@@ -6,18 +6,6 @@
 
 using namespace Rcpp;
 
-// bootstrap_within_unit
-NumericVector bootstrap_within_unit(NumericVector deviations, int nboot);
-RcppExport SEXP _krippendorff_bootstrap_within_unit(SEXP deviationsSEXP, SEXP nbootSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type deviations(deviationsSEXP);
-    Rcpp::traits::input_parameter< int >::type nboot(nbootSEXP);
-    rcpp_result_gen = Rcpp::wrap(bootstrap_within_unit(deviations, nboot));
-    return rcpp_result_gen;
-END_RCPP
-}
 // count_disagreements
 double count_disagreements(NumericVector counts);
 RcppExport SEXP _krippendorff_count_disagreements(SEXP countsSEXP) {
@@ -29,23 +17,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// mutual_disagreements
-double mutual_disagreements(NumericVector standard, NumericVector coders);
-RcppExport SEXP _krippendorff_mutual_disagreements(SEXP standardSEXP, SEXP codersSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type standard(standardSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type coders(codersSEXP);
-    rcpp_result_gen = Rcpp::wrap(mutual_disagreements(standard, coders));
-    return rcpp_result_gen;
-END_RCPP
-}
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_krippendorff_bootstrap_within_unit", (DL_FUNC) &_krippendorff_bootstrap_within_unit, 2},
     {"_krippendorff_count_disagreements", (DL_FUNC) &_krippendorff_count_disagreements, 1},
-    {"_krippendorff_mutual_disagreements", (DL_FUNC) &_krippendorff_mutual_disagreements, 2},
     {NULL, NULL, 0}
 };
 
