@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compute Krippendorff's Accuracy — accuracy • krippendorff</title>
+<title>Prepare and clean a data.table for quadrilogy — clean_and_count • krippendorff</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,9 @@
 
 
 
-<meta property="og:title" content="Compute Krippendorff's Accuracy — accuracy" />
-<meta property="og:description" content="Similar input and warnings as [replicability()].
-TODO(julien): figure out how to merge both functions in the same help page." />
+<meta property="og:title" content="Prepare and clean a data.table for quadrilogy — clean_and_count" />
+<meta property="og:description" content="Standardizes the names of the columns, set the keys,
+compute the frequencies" />
 
 
 
@@ -109,35 +109,24 @@ TODO(julien): figure out how to merge both functions in the same help page." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Compute Krippendorff's Accuracy</h1>
-    <small class="dont-index">Source: <a href='http://github.com/jucor/krippendorff/blob/master/R/accuracy.R'><code>R/accuracy.R</code></a></small>
-    <div class="hidden name"><code>accuracy.Rd</code></div>
+    <h1>Prepare and clean a data.table for quadrilogy</h1>
+    <small class="dont-index">Source: <a href='http://github.com/jucor/krippendorff/blob/master/R/helpers.R'><code>R/helpers.R</code></a></small>
+    <div class="hidden name"><code>clean_and_count.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Similar input and warnings as [replicability()].
-TODO(julien): figure out how to merge both functions in the same help page.</p>
+    <p>Standardizes the names of the columns, set the keys,
+compute the frequencies</p>
     </div>
 
-    <pre class="usage"><span class='fu'>accuracy</span><span class='op'>(</span>
-  <span class='va'>coders</span>,
-  <span class='va'>standard</span>,
-  unit_from <span class='op'>=</span> <span class='st'>"unit"</span>,
-  measurement_from <span class='op'>=</span> <span class='st'>"measurement"</span>,
-  frequency_from <span class='op'>=</span> <span class='cn'>NULL</span>,
-  return_by_unit <span class='op'>=</span> <span class='cn'>FALSE</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>clean_and_count</span><span class='op'>(</span><span class='va'>dt</span>, <span class='va'>unit_from</span>, <span class='va'>measurement_from</span>, <span class='va'>frequency_from</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>coders</th>
-      <td><p>`data.table` containing the standards.</p></td>
-    </tr>
-    <tr>
-      <th>standard</th>
-      <td><p>`data.table` containing the coders.</p></td>
+      <th>dt</th>
+      <td><p>`data.table` containing measurements, either coders or standard.</p></td>
     </tr>
     <tr>
       <th>unit_from</th>
@@ -150,12 +139,7 @@ TODO(julien): figure out how to merge both functions in the same help page.</p>
     <tr>
       <th>frequency_from</th>
       <td><p>(Optional) Name of the column containing the
-frequencies, *if* the data is in the "aggregated" form described above.</p></td>
-    </tr>
-    <tr>
-      <th>return_by_unit</th>
-      <td><p>(default FALSE) If TRUE, return a data.table of
-per-unit contributions.</p></td>
+frequencies, *if* the data is in the "aggregated".</p></td>
     </tr>
     </table>
 
@@ -163,10 +147,6 @@ per-unit contributions.</p></td>
 
     
 
-<dt>accuracy</dt><dd><p>Krippendorff's Alpha accuracy index</p></dd>
-<dt>De</dt><dd><p>Expected disagreement</p></dd>
-<dt>Do</dt><dd><p>Overall observed disagreement accross all units</p></dd>
-<dt>by_unit</dt><dd><p>(Only if return_by_unit = TRUE) Per-unit contributions</p></dd>
 
 
   </div>
