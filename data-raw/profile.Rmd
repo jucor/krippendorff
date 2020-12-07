@@ -34,6 +34,7 @@ generate_large_example <- function(
 }
 ```
 
+Check the complexity
 ```{r}
 
 library(microbenchmark)
@@ -48,6 +49,7 @@ ggplot2::autoplot(rep)
 library(GuessCompx)
 example <- generate_large_example(5e5)
 
+
 f <- function(df) {
   accuracy(
     copy(df),
@@ -59,4 +61,11 @@ CompEst(example$coders,
   f,
   plot.result = TRUE
 )
+```
+
+
+Now profile
+```{r}
+library(bench)
+example <- generate_large_example(5e4)
 ```

@@ -99,7 +99,6 @@ test_that("Accuracy on aggregated binary data.table", {
 
 test_that("Surrogacy on aggregated binary data.table", {
   example <- generate_example()
-  # TODO()
   surr <- surrogacy(
     coders = copy(example$coders),
     standard = copy(example$standard),
@@ -120,7 +119,6 @@ test_that("Decisiveness on aggregated binary data.table", {
   example <- generate_example()
   dec <- decisiveness(
     coders = example$coders,
-    standard = example$standard,
     unit_from = "unit",
     measurement_from = "value",
     frequency_from = "count"

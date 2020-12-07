@@ -5,7 +5,7 @@ context("Replicability on nominal data")
 
 test_that("Replicability on partial nominal data.table", {
   results <- replicability(
-    coders = mwebreliability5,
+    coders = copy(mwebreliability5),
     unit_from = "unit",
     measurement_from = "measurement"
   )

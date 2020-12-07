@@ -7,7 +7,7 @@ test_that("Bootstrap on nominal data", {
   nboot <- 1000
   mwebreliability5
   result <- kboot(
-    dt = mwebreliability5, # ,news_tone,
+    dt = copy(mwebreliability5),
     unit = "unit",
     measurement = "measurement",
     observer = "observer",
@@ -25,9 +25,10 @@ test_that("Bootstrap on nominal data", {
 test_that("Bootstrap with non-standard names", {
   skip("TODO(jucor): implement for more than 2 observers")
   nboot <- 1000
-  colnames(mwebreliability5) <- c("myunit", "myobs", "mymeasure")
+  dt <- copy(mwebreliability5)
+  colnames(dt) <- c("myunit", "myobs", "mymeasure")
   result <- kboot(
-    dt = mwebreliability5, # ,news_tone,
+    dt = dt,
     unit = "myunit",
     measurement = "mymeasure",
     observer = "myobs",
