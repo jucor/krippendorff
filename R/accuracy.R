@@ -3,8 +3,8 @@
 #' Similar input and warnings as [replicability()].
 #' TODO(julien): figure out how to merge both functions in the same help page.
 #'
-#' @param coders `data.table` containing the standards.
-#' @param standard `data.table` containing the coders.
+#' @param coders `data.table` containing the coders.
+#' @param standard `data.table` containing the standard.
 #' @param unit_from Name of the column containing the unit ID
 #' @param measurement_from Name of the column containing the measurements
 #' @param frequency_from (Optional) Name of the column containing the

@@ -2,5 +2,6 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 count_disagreements <- function(counts) {
-  .Call(`_krippendorff_count_disagreements`, counts)
+    .Call(`_krippendorff_count_disagreements`, counts)
 }
+

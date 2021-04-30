@@ -1,5 +1,22 @@
-# TODO(julien) Document this function.
-# TODO(julien) Refactor replicability to use accruacy.
+#' Compute Krippendorff's Decisiveness
+#'
+#' Similar input and warnings as [replicability()].
+#' TODO(julien): figure out how to merge both functions in the same help page.
+#'
+#' @param coders `data.table` containing the coders.
+#' @param unit_from Name of the column containing the unit ID
+#' @param measurement_from Name of the column containing the measurements
+#' @param frequency_from (Optional) Name of the column containing the
+#'   frequencies, *if* the data is in the "aggregated" form described above.
+#' @param return_by_unit (default FALSE) If TRUE, return a data.table of
+#' per-unit contributions.
+#' @return
+#' \item{decisiveness}{Krippendorff's Alpha decisiveness index}
+#' \item{De}{Expected disagreement}
+#' \item{Do}{Overall observed disagreement accross all units}
+#' \item{by_unit}{(Only if return_by_unit = TRUE) Per-unit contributions}
+#' @export
+#' @import data.table
 decisiveness <- function(coders,
                          unit_from = "unit",
                          measurement_from = "measurement",

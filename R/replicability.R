@@ -93,6 +93,8 @@ replicability <- function(coders,
 
   alpha <- 1 - Do / De
 
+  # TODO(jucor): rename alpha to "replicability" for consistency
+  # with the three other alphas
   out <- list(alpha = alpha, Do = Do, De = De, n = n)
   if (return_by_unit) {
     out$by_unit <- by_unit
