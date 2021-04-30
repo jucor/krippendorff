@@ -40,6 +40,9 @@ decisiveness <- function(coders,
     by = unit
   ]
 
+  # Drop all units where there is only one grade
+  coders_freq <- coders_freq[mu > 1]
+
   majority <- coders_freq[N == unit_max,
     .(measurement, N = mu / .N),
     by = unit
