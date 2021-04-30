@@ -129,3 +129,31 @@ test_that("Decisiveness on aggregated binary data.table", {
     tolerance = 1e-3
   )
 })
+
+
+test_that("Decisiveness excludes units with a single coder", {
+    coders <- data.table(data.frame(
+      unit = c(1, 2, 2),
+      coder = c("Alice", "Alice", "Bob"),
+      value = c(1, 1, 0)))
+
+    dec <- decisiveness(
+      coders = copy(coders),
+      unit_from = "unit",
+      measurement_from = "value"
+    )
+
+    filtered <- coders[unit != 1]
+    dec_filtered <- decisiveness(
+      coders = copy(filtered),
+      unit_from = "unit",
+      measurement_from = "value"
+    )
+
+
+    expect_equal(
+      dec$decisiveness,
+      dec_filtered$decisiveness,
+      tolerance = 1e-3
+    )
+})
